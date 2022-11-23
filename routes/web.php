@@ -79,11 +79,11 @@ Route::group(['middleware' => 'auth'], function () {
 
                 // Route posts table && change posts status
                 Route::get('/posts', [AdminPostController::class, 'index']);
-                Route::post('/post/update-status/{post}', [AdminPostController::class, 'update']);
+                Route::post('/post/update-status/{post}', [AdminPostController::class, 'update'])->name('change-post-status');
 
                 // Route stories table && change stories status
                 Route::get('/stories', [AdminStoryController::class, 'index']);
-                Route::post('/story/update-status/{story}', [AdminStoryController::class, 'update']);
+                Route::post('/story/update-status/{story}', [AdminStoryController::class, 'update'])->name('change-story-status');
             });
         });
     });
