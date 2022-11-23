@@ -63,10 +63,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/user/search', [UserController::class, 'search'])->name('user.search');
         Route::get('/explore', [UserController::class, 'explore']);
         Route::get('/trending', [PostController::class, 'trending']);
-
-        // logout route
-        Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
     });
+    // logout route
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
     // Admin Route
     Route::group(['middleware' => 'is_admin'], function () {

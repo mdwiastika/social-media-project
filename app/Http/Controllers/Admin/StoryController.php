@@ -15,7 +15,15 @@ class StoryController extends Controller
      */
     public function index()
     {
-        //
+        $stories = Story::whereNot(function ($st) {
+            $st->where('user_id', auth()->user()->id);
+        })->latest()->get();
+        return view('admin.table.stories.main', [
+            'title' => 'Table Story',
+            'stories' => $stories,
+            'active' => 'table',
+            'act' => 'tablestories',
+        ]);
     }
 
     /**
@@ -70,7 +78,16 @@ class StoryController extends Controller
      */
     public function update(Request $request, Story $story)
     {
-        //
+        if ($story->active == 'true') {
+            $story->active = 'false';
+        } else {
+            $story->active = 'true';
+        }
+        $story->save();
+        return response()->json([
+            'message' => 'Success change user status',
+            'story' => $story,
+        ], 202);
     }
 
     /**
