@@ -239,8 +239,14 @@
                     <div class="flex flex-1 items-center space-x-4">
                         <a href="#">
                             <div class="bg-gradient-to-tr from-yellow-600 to-pink-600 p-0.5 rounded-full">
-                                <img src="assets/images/avatars/avatar-2.jpg"
-                                    class="bg-gray-200 border border-white rounded-full w-8 h-8">
+                                @if ($post->user->profile)
+                                <img src="{{ asset('/storage/'.$post->user->profile) }}"
+                                class="bg-gray-200 border border-white rounded-full w-8 h-8">
+                                @else
+                                <img src="{{ asset('/assets/images/avatars/avatar-2.jpg') }}"
+                                class="bg-gray-200 border border-white rounded-full w-8 h-8">
+                                @endif
+                                
                             </div>
                         </a>
                         <span class="block text-lg font-semibold"> {{ $post->user->name }} </span>
@@ -263,7 +269,12 @@
                 <div class="-mt-1 space-y-1">
                     @foreach ($post->comments as $item)
                     <div class="flex flex-1 items-center space-x-2">
-                        <img src="assets/images/avatars/avatar-2.jpg" class="rounded-full w-8 h-8">
+                        @if ($item->user->profile)
+                            
+                        <img src="{{ asset('/storage/'.$item->user->profile) }}" class="rounded-full w-8 h-8">
+                        @else
+                        <img src="{{ asset('/assets/images/avatars/avatar-2.jpg') }}" class="rounded-full w-8 h-8">
+                        @endif
                         <div class="flex-1 p-2">
                             <form action="">
                                 <style>
@@ -294,7 +305,13 @@
                     </div>
                     @foreach ($item->replies as $reply)
                                 <div class="flex flex-1 items-center space-x-2" style="margin-left: 30px">
-                                    <img src="assets/images/avatars/avatar-2.jpg" class="rounded-full" style="width: 20px; height: 20px">
+                                    @if ($reply->user->profile)
+                                    <img src="{{ asset('/storage/'.$reply->user->profile) }}" class="rounded-full" style="width: 20px; height: 20px">
+                                        
+                                    @else
+                                        
+                                    <img src="{{ asset('/assets/images/avatars/avatar-2.jpg') }}" class="rounded-full" style="width: 20px; height: 20px">
+                                    @endif
                                     <div class="flex-1 p-2">
                                        <strong>{{ $reply->user->username }} </strong>{{ $reply->body }}
                                     </div>

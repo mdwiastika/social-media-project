@@ -32,7 +32,7 @@
 <body class="bg-gray-100">
 
 
-    <div id="wrapper" class="flex flex-col justify-between h-screen">
+    <div id="wrapper" class="flex flex-col justify-between h-screen bg-white text-black dark:bg-gray-800">
 
         <!-- header-->
         <div class="bg-white py-4 shadow dark:bg-gray-800">

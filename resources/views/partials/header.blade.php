@@ -29,7 +29,7 @@
         <div class="right-side lg:pr-4">
              <!-- upload -->
             <a href="/create"
-                class="bg-pink-500 flex font-bold hidden hover:bg-pink-600 hover:text-white inline-block items-center lg:block max-h-10 mr-4 px-4 py-2 rounded shado text-white">
+                class="bg-pink-600 flex font-bold hidden hover:bg-fuchsia-500 hover:text-white inline-block items-center lg:block max-h-10 mr-4 px-4 py-1 rounded shadow text-white">
                 <ion-icon name="add-circle" class="-mb-1
                  mr-1 opacity-90 text-xl uilus-circle"></ion-icon> Upload
             </a>
@@ -37,7 +37,7 @@
                                     
              <!-- Notification -->
 
-             <a href="#" class="header-links-item">
+             {{-- <a href="#" class="header-links-item">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -63,11 +63,11 @@
                     </li>
                 </ul>
                 <a href="#" class="see-all">See all</a>
-            </div>
+            </div> --}}
 
             <!-- Messages -->
 
-            <a href="#" class="header-links-item">
+            <a href="/chat" class="header-links-item">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -81,7 +81,14 @@
                 <ul class="dropdown_scrollbar" data-simplebar>
                     <li>
                         <a href="#">
-                            <div class="drop_avatar"> <img src={{ asset("/assets/images/avatars/avatar-1.jpg") }} alt="">
+                            <div class="drop_avatar"> 
+                                @if (auth()->user()->profile)
+                                <img src={{ asset("/storage/".auth()->user()->profile) }} alt="">
+                                    
+                                @else
+                                    
+                                <img src={{ asset("/assets/images/avatars/avatar-2.jpg") }} alt="">
+                                @endif
                             </div>
                             <div class="drop_content">
                                 <strong> John menathon </strong> <time> 6:43 PM</time>
@@ -96,14 +103,20 @@
             <!-- profile -->
 
             <a href="#">
+                @if (auth()->user()->profile)
+                <img src={{ asset("/storage/".auth()->user()->profile) }} class="header-avatar" alt="">
+                @else
                 <img src={{ asset("/assets/images/avatars/avatar-2.jpg") }} class="header-avatar" alt="">
+                @endif
             </a>
             <div uk-drop="mode: click;offset:9" class="header_dropdown profile_dropdown border-t">
                 <ul>
-                    <li><a href="#"> Account setting </a> </li>
-                    <li><a href="#"> Payments </a> </li>
-                    <li><a href="#"> Help </a> </li>
-                    <li><a href="form-login.html"> Log Out</a></li>
+                    <form action="/logout" method="POST" style="display: inline;">
+                        @csrf
+                        <button type="submit" style="display: inline-block;">
+                            <li><a> Log Out</a></li>
+                            </button>
+                    </form>
                 </ul>
             </div>
 

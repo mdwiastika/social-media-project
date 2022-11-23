@@ -1,11 +1,11 @@
-        @include('Chatify::layouts.headLinks')
+@include('Chatify::layouts.headLinks')
         <div class="messenger">
             {{-- ----------------------Users/Groups lists side---------------------- --}}
             <div class="messenger-listView">
                 {{-- Header and search bar --}}
                 <div class="m-header">
                     <nav>
-                        <a href="#"><i class="fas fa-inbox"></i> <span class="messenger-headTitle">MESSAGES</span> </a>
+                        <a href="#"><i class="fas fa-inbox"></i> <span class="messenger-headTitle">MY CHAT</span> </a>
                         {{-- header buttons --}}
                         <nav class="m-header-right">
                             <a href="#"><i class="fas fa-cog settings-btn"></i></a>
@@ -89,7 +89,7 @@
                 </div>
                 {{-- Messaging area --}}
                 <div class="m-body messages-container app-scroll">
-                    <div class="messages">
+                    <div class="messages" style="padding-bottom: 40px">
                         <p class="message-hint center-el"><span>Please select a chat to start messaging</span></p>
                     </div>
                     {{-- Typing indicator --}}

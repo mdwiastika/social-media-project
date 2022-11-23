@@ -23,10 +23,10 @@ class UserController extends Controller
         $data = Follow::where('following_user_id', auth()->User()->id)->count();
         return view('profile', [
             'title' => 'profile',
-            'posts' => Post::where('user_id', $user->id)->latest()->get(),
+            'posts' => Post::where('user_id', $user->id)->where('active', 'true')->latest()->get(),
             'usere' => $user,
-            'count2' => Post::where('user_id', $user->id)->get(),
-            'count' => Post::where('user_id', auth()->user()->id)->get(),
+            'count2' => Post::where('user_id', $user->id)->where('active', 'true')->get(),
+            'count' => Post::where('user_id', auth()->user()->id)->where('active', 'true')->get(),
             'followers' => $data,
         ]);
     }
@@ -128,10 +128,21 @@ class UserController extends Controller
         if ($request->ajax()) {
             $user_filter = User::where('username', 'LIKE', '%' . $request->user_search . '%')->whereNot(function ($query) {
                 $query->where('id', Auth::id());
-            })->get();
+            })->whereNot(function ($uf) {
+                $uf->where('role', 'admin');
+            })->where('active', 'true')->get();
             return view('get-user-search', [
                 'users' => $user_filter,
             ]);
         }
+    }
+    public function explore()
+    {
+        return view('explore', [
+            'title' => 'explore',
+            'posts' => Post::where('user_id', auth()->User()->id)->latest()->get(),
+            'user' => auth()->User()->id,
+            'count' => Post::where('user_id', auth()->User()->id)->get()
+        ]);
     }
 }

@@ -28,8 +28,13 @@
                         <li>
                             <div
                                 class="relative bg-gradient-to-tr from-yellow-600 to-pink-600 p-1 rounded-full transform -rotate-2 hover:rotate-3 transition hover:scale-105 m-1">
+                                @if (auth()->user()->profile)
+                                <img src="{{ asset('/storage/'.auth()->user()->profile) }}"
+                                    class="w-20 h-20 rounded-full border-2 border-white bg-gray-200">    
+                                @else
                                 <img src="assets/images/avatars/avatar-2.jpg"
-                                    class="w-20 h-20 rounded-full border-2 border-white bg-gray-200">
+                                class="w-20 h-20 rounded-full border-2 border-white bg-gray-200">
+                                @endif
                                 <a href="/story/create"
                                     class=" bg-gray-400 p-2 rounded-full w-8 h-8 flex justify-center items-center text-white border-4 border-white absolute right-2 bottom-0 bg-blue-600">
                                     + </a>
@@ -44,7 +49,8 @@
                                         class="bg-gradient-to-tr from-yellow-600 to-pink-600 p-1 rounded-full transform -rotate-2 hover:rotate-3 transition hover:scale-105 m-1">
                                         @if (strpos($story->first()->image, '.mp4'))
                                             <video class="rounded-md w-full lg:h-76 object-cover" controls preload="auto">
-                                                <source src="{{ asset('/storage/' . $story->first()->image) }}" type="video/mp4">
+                                                <source src="{{ asset('/storage/' . $story->first()->image) }}"
+                                                    type="video/mp4">
                                             </video>
                                         @else
                                             <img src="{{ asset('/storage/' . $story->first()->image) }}"
@@ -77,99 +83,115 @@
                 <!-- right sidebar-->
                 <div class="lg:w-5/12">
 
-                    <div class="bg-white dark:bg-gray-900 shadow-md rounded-md overflow-hidden">
+                    <div class="shadow-md rounded-md overflow-hidden">
 
                         <div
-                            class="bg-gray-50 dark:bg-gray-800 border-b border-gray-100 flex items-baseline justify-between py-4 px-6 dark:border-gray-800">
+                            class="border-b border-gray-100 flex items-baseline justify-between py-4 px-6">
                             <h2 class="font-semibold text-lg">Who to follow</h2>
                             <a href="#"> Refresh</a>
                         </div>
 
-                        <div
-                            class="divide-gray-300 divide-gray-50 divide-opacity-50 divide-y px-4 dark:divide-gray-800 dark:text-gray-100">
-                            <div class="flex items-center justify-between py-3">
-                                <div class="flex flex-1 items-center space-x-4">
-                                    <a href="profile.html">
-                                        <img src="assets/images/avatars/avatar-2.jpg"
+                        @foreach ($randomFollows as $randfollow)
+                            <div
+                                class="bg-white divide-opacity-50 divide-y px-4">
+
+                                <div class="flex items-center justify-between py-3">
+                                    <div class="flex flex-1 items-center space-x-4">
+                                        <a href="profile.html">
+                                            @if ($randfollow->profile)
+                                            <img src="{{ asset('/storage/'.$randfollow->profile) }}"
                                             class="bg-gray-200 rounded-full w-10 h-10">
-                                    </a>
-                                    <div class="flex flex-col">
-                                        <span class="block capitalize font-semibold"> Johnson smith </span>
-                                        <span class="block capitalize text-sm"> Australia </span>
+                                            @else
+                                            <img src="assets/images/avatars/avatar-2.jpg"
+                                            class="bg-gray-200 rounded-full w-10 h-10">
+                                            @endif
+                                            
+                                        </a>
+                                        <div class="flex flex-col">
+                                            <span class="block capitalize font-semibold"> {{ $randfollow->name }} </span>
+                                            <span class="block capitalize text-sm"> {{ $randfollow->username }} </span>
+                                        </div>
                                     </div>
+                                    <form action="{{ route('follow.store', $randfollow) }}" method="post" class="my-2">
+                                        @csrf
+                                        <button>
+                                            <a
+                                                class="border border-gray-200 font-semibold px-4 py-1 rounded-full hover:bg-pink-600 hover:text-white hover:border-pink-600">
+                                                Follow
+                                            </a>
+                                        </button>
+                                    </form>
                                 </div>
-
-                                <a href="#"
-                                    class="border border-gray-200 font-semibold px-4 py-1 rounded-full hover:bg-pink-600 hover:text-white hover:border-pink-600 dark:border-gray-800">
-                                    Follow </a>
                             </div>
-
-                        </div>
+                        @endforeach
 
                     </div>
 
                     <div class="mt-5" uk-sticky="offset:28; bottom:true ; media @m">
-                        <div class="bg-white dark:bg-gray-900 shadow-md rounded-md overflow-hidden">
+                        <div class="shadow-md rounded-md overflow-hidden">
 
                             <div
-                                class="bg-gray-50 border-b border-gray-100 flex items-baseline justify-between py-4 px-6 dark:bg-gray-800 dark:border-gray-700">
+                                class="border-b border-gray-100 flex items-baseline justify-between py-4 px-6">
                                 <h2 class="font-semibold text-lg">Latest</h2>
                                 <a href="explore.html"> See all</a>
                             </div>
 
-                            <div class="grid grid-cols-2 gap-2 p-3 uk-link-reset">
-
-                                <div
-                                    class="bg-red-500 max-w-full h-32 rounded-lg relative overflow-hidden uk-transition-toggle">
-                                    <a href="#story-modal" uk-toggle>
-                                        <img src="assets/images/post/img2.jpg"
-                                            class="w-full h-full absolute object-cover inset-0">
-                                    </a>
-                                    <div
-                                        class="flex flex-1 justify-around items-center absolute bottom-0 w-full p-2 text-white custom-overly1 uk-transition-slide-bottom-medium">
-                                        <a href="#"> <i class="uil-heart"></i> 150 </a>
-                                        <a href="#"> <i class="uil-heart"></i> 30 </a>
-                                    </div>
-                                </div>
-
-                                <div
-                                    class="bg-red-500 max-w-full h-40 rounded-lg relative overflow-hidden uk-transition-toggle">
-                                    <a href="#story-modal" uk-toggle>
-                                        <img src="assets/images/post/img7.jpg"
-                                            class="w-full h-full absolute object-cover inset-0">
-                                    </a>
-                                    <div
-                                        class="flex flex-1 justify-around items-center absolute bottom-0 w-full p-2 text-white custom-overly1 uk-transition-slide-bottom-medium">
-                                        <a href="#"> <i class="uil-heart"></i> 150 </a>
-                                        <a href="#"> <i class="uil-heart"></i> 30 </a>
-                                    </div>
-                                </div>
-
-                                <div
-                                    class="bg-red-500 max-w-full h-40 -mt-8 rounded-lg relative overflow-hidden uk-transition-toggle">
-                                    <a href="#story-modal" uk-toggle>
-                                        <img src="assets/images/post/img5.jpg"
-                                            class="w-full h-full absolute object-cover inset-0">
-                                    </a>
-                                    <div
-                                        class="flex flex-1 justify-around  items-center absolute bottom-0 w-full p-2 text-white custom-overly1 uk-transition-slide-bottom-medium">
-                                        <a href="#"> <i class="uil-heart"></i> 150 </a>
-                                        <a href="#"> <i class="uil-heart"></i> 30 </a>
-                                    </div>
-                                </div>
-
-                                <div
-                                    class="bg-red-500 max-w-full h-32 rounded-lg relative overflow-hidden uk-transition-toggle">
-                                    <a href="#story-modal" uk-toggle>
-                                        <img src="assets/images/post/img3.jpg"
-                                            class="w-full h-full absolute object-cover inset-0">
-                                    </a>
-                                    <div
-                                        class="flex flex-1 justify-around  items-center absolute bottom-0 w-full p-2 text-white custom-overly1 uk-transition-slide-bottom-medium">
-                                        <a href="#"> <i class="uil-heart"></i> 150 </a>
-                                        <a href="#"> <i class="uil-heart"></i> 30 </a>
-                                    </div>
-                                </div>
+                            <div class="bg-white grid grid-cols-2 gap-2 p-3 uk-link-reset">
+                                @foreach ($latestPosts as $singlePost)
+                                    @if ($loop->index == 0)
+                                        <div
+                                            class="bg-red-500 max-w-full h-32 mb-8 rounded-lg relative overflow-hidden uk-transition-toggle">
+                                            <a href="#story-modal" uk-toggle>
+                                                <img src="{{ asset('/storage/' . unserialize(base64_decode($singlePost->image))[0]) }}"
+                                                    class="w-full h-full absolute object-cover inset-0">
+                                            </a>
+                                            <div
+                                                class="flex flex-1 justify-around  items-center absolute bottom-0 w-full p-2 text-white custom-overly1 uk-transition-slide-bottom-medium">
+                                                <a href="#"> <i class="uil-heart"></i> 150 </a>
+                                                <a href="#"> <i class="uil-heart"></i> 30 </a>
+                                            </div>
+                                        </div>
+                                    @elseif ($loop->index == 1)
+                                        <div
+                                            class="bg-red-500 max-w-full h-32 rounded-lg relative overflow-hidden uk-transition-toggle">
+                                            <a href="#story-modal" uk-toggle>
+                                                <img src="{{ asset('/storage/' . unserialize(base64_decode($singlePost->image))[0]) }}"
+                                                    class="w-full h-full absolute object-cover inset-0">
+                                            </a>
+                                            <div
+                                                class="flex flex-1 justify-around  items-center absolute bottom-0 w-full p-2 text-white custom-overly1 uk-transition-slide-bottom-medium">
+                                                <a href="#"> <i class="uil-heart"></i> 150 </a>
+                                                <a href="#"> <i class="uil-heart"></i> 30 </a>
+                                            </div>
+                                        </div>
+                                    @elseif($loop->index == 2)
+                                        <div
+                                            class="bg-red-500 max-w-full h-32 -mt-8 rounded-lg relative overflow-hidden uk-transition-toggle">
+                                            <a href="#story-modal" uk-toggle>
+                                                <img src="{{ asset('/storage/' . unserialize(base64_decode($singlePost->image))[0]) }}"
+                                                    class="w-full h-full absolute object-cover inset-0">
+                                            </a>
+                                            <div
+                                                class="flex flex-1 justify-around  items-center absolute bottom-0 w-full p-2 text-white custom-overly1 uk-transition-slide-bottom-medium">
+                                                <a href="#"> <i class="uil-heart"></i> 150 </a>
+                                                <a href="#"> <i class="uil-heart"></i> 30 </a>
+                                            </div>
+                                        </div>
+                                    @elseif($loop->index == 3)
+                                        <div
+                                            class="bg-red-500 max-w-full h-32 -mt-8 rounded-lg relative overflow-hidden uk-transition-toggle">
+                                            <a href="#story-modal" uk-toggle>
+                                                <img src="{{ asset('/storage/' . unserialize(base64_decode($singlePost->image))[0]) }}"
+                                                    class="w-full h-full absolute object-cover inset-0">
+                                            </a>
+                                            <div
+                                                class="flex flex-1 justify-around  items-center absolute bottom-0 w-full p-2 text-white custom-overly1 uk-transition-slide-bottom-medium">
+                                                <a href="#"> <i class="uil-heart"></i> 150 </a>
+                                                <a href="#"> <i class="uil-heart"></i> 30 </a>
+                                            </div>
+                                        </div>
+                                    @endif
+                                @endforeach
 
                             </div>
 
@@ -181,12 +203,8 @@
             </div>
 
         </div>
-
-        </div>
-
-        </div>
         <!-- Story modal -->
-        {{-- <div id="story-modal" class="uk-modal-container" uk-modal>
+        <div id="story-modal" class="uk-modal-container" uk-modal>
             <div class="uk-modal-dialog story-modal">
                 <button
                     class="uk-modal-close-default lg:-mt-9 lg:-mr-9 -mt-5 -mr-5 shadow-lg bg-white rounded-full p-4 transition dark:bg-gray-600 dark:text-white"
@@ -195,7 +213,7 @@
                 <div class="story-modal-media">
                     <img src="assets/images/post/img4.jpg" alt="" class="inset-0 h-full w-full object-cover">
                 </div>
-                <div class="flex-1 bg-white dark:bg-gray-900 dark:text-gray-100">
+                <div class="flex-1 bg-white dark:text-gray-100">
 
                     <!-- post header-->
                     <div class="border-b flex items-center justify-between px-5 py-3 dark:border-gray-600">
@@ -216,7 +234,7 @@
                 </div>
 
             </div>
-        </div> --}}
+        </div>
         @foreach ($storiesUser as $story)
             <div id="story-view{{ $story->first()->user_id }}" class="uk-modal-container" uk-modal>
                 <div class="uk-modal-dialog story-modal">
@@ -230,15 +248,19 @@
                                 @foreach ($story as $singleStory)
                                     @if (strpos($singleStory->image, '.mp4'))
                                         @if ($loop->index == 0)
-                                            <a href="{{ asset('/storage/' . $singleStory->image) }}" class="col-span-2" data-caption="{{ $singleStory->content }}">
-                                                <video class="rounded-md w-full lg:h-76 object-cover" controls preload="auto">
+                                            <a href="{{ asset('/storage/' . $singleStory->image) }}" class="col-span-2"
+                                                data-caption="{{ $singleStory->content }}">
+                                                <video class="rounded-md w-full lg:h-76 object-cover" controls
+                                                    preload="auto">
                                                     <source src="{{ asset('/storage/' . $singleStory->image) }}"
                                                         type="video/mp4">
                                                 </video>
                                             </a>
                                         @else
-                                            <a href="{{ asset('/storage/' . $singleStory->image) }}" class="col-span-2 hidden" data-caption="{{ $singleStory->content }}">
-                                                <video class="rounded-md w-full lg:h-76 object-cover" controls preload="auto">
+                                            <a href="{{ asset('/storage/' . $singleStory->image) }}"
+                                                class="col-span-2 hidden" data-caption="{{ $singleStory->content }}">
+                                                <video class="rounded-md w-full lg:h-76 object-cover" controls
+                                                    preload="auto">
                                                     <source src="{{ asset('/storage/' . $singleStory->image) }}"
                                                         type="video/mp4">
                                                 </video>
@@ -246,13 +268,14 @@
                                         @endif
                                     @else
                                         @if ($loop->index == 0)
-                                            <a href="{{ asset('/storage/' . $singleStory->image) }}" class="col-span-2" data-caption="{{ $singleStory->content }}">
+                                            <a href="{{ asset('/storage/' . $singleStory->image) }}" class="col-span-2"
+                                                data-caption="{{ $singleStory->content }}">
                                                 <img src="{{ asset('/storage/' . $singleStory->image) }}" alt=""
-                                                    class="inset-0 h-full w-full object-cover"
-                                                    style="height: 600px">
+                                                    class="inset-0 h-full w-full object-cover" style="height: 600px">
                                             </a>
                                         @else
-                                            <a href="{{ asset('/storage/' . $singleStory->image) }}" class="col-span-2" data-caption="{{ $singleStory->content }}">
+                                            <a href="{{ asset('/storage/' . $singleStory->image) }}" class="col-span-2"
+                                                data-caption="{{ $singleStory->content }}">
                                                 <img src="{{ asset('/storage/' . $singleStory->image) }}" alt=""
                                                     class="inset-0 h-full w-full object-cover hidden"
                                                     style="height: 600px">

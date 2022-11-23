@@ -2,7 +2,7 @@
                         <div id="story-modal{{ $post->id }}b" class="uk-modal-container" uk-modal>
                             <div class="uk-modal-dialog story-modal">
                                 <button
-                                    class="uk-modal-close-default lg:-mt-9 lg:-mr-9 -mt-5 -mr-5 shadow-lg bg-white rounded-full p-4 transition dark:bg-gray-600 dark:text-white"
+                                    class="uk-modal-close-default lg:-mt-9 lg:-mr-9 -mt-5 -mr-5 shadow-lg rounded-full p-4 transition"
                                     type="button" uk-close></button>
 
                                 <div class="story-modal-media">
@@ -53,8 +53,14 @@
                                             <a href="#">
                                                 <div
                                                     class="bg-gradient-to-tr from-yellow-600 to-pink-600 p-0.5 rounded-full">
+                                                    @if ($post->user->profile)
+                                                    <img src="{{ asset('/storage/'.$post->user->profile) }}"
+                                                        class="bg-gray-200 border border-white rounded-full w-8 h-8">
+                                                    @else
                                                     <img src="assets/images/avatars/avatar-2.jpg"
                                                         class="bg-gray-200 border border-white rounded-full w-8 h-8">
+                                                    @endif
+                                                    
                                                 </div>
                                             </a>
                                             <span class="block text-lg font-semibold"> {{ $post->user->name }} </span>
@@ -78,8 +84,13 @@
                                         <div class="-mt-1 space-y-1">
                                             @foreach ($post->comments as $item)
                                                 <div class="flex flex-1 items-center space-x-2">
+                                                    @if ($item->user->profile)
+                                                    <img src="{{ asset('/storage/'.$item->user->profile) }}"
+                                                        class="rounded-full w-8 h-8">    
+                                                    @else    
                                                     <img src="assets/images/avatars/avatar-2.jpg"
                                                         class="rounded-full w-8 h-8">
+                                                    @endif
                                                     <div class="flex-1 p-2">
                                                         <form action="">
                                                             <style>
@@ -121,8 +132,13 @@
                                                 @foreach ($item->replies as $reply)
                                                     <div class="flex flex-1 items-center space-x-2"
                                                         style="margin-left: 30px">
+                                                        @if ($reply->user->profile)
+                                                        <img src="{{ asset('/storage/'.$reply->user->profile) }}" class="rounded-full"
+                                                        style="width: 20px; height: 20px">
+                                                        @else
                                                         <img src="assets/images/avatars/avatar-2.jpg" class="rounded-full"
-                                                            style="width: 20px; height: 20px">
+                                                        style="width: 20px; height: 20px">
+                                                        @endif
                                                         <div class="flex-1 p-2">
                                                             <strong>{{ $reply->user->username }}
                                                             </strong>{{ $reply->body }}
@@ -393,10 +409,11 @@
                                             @php
                                                 $firstLike = optional($post->likes->last())->user;
                                             @endphp
+                                            @if ($post->likes->count('user_id' > 0))
                                             Liked by <strong>{{ optional($firstLike)->username }} </strong>
-                                            @if ($post->likes->count('user_id') < 2)
-                                            @else
-                                                and <strong>{{ $post->likes->count('user_id') - 1 }} Others </strong>
+                                            @endif
+                                            @if ($post->likes->count('user_id') > 1)
+                                            and <strong>{{ $post->likes->count('user_id') - 1 }} Others </strong>
                                             @endif
                                         </div>
                                     </div>
@@ -407,14 +424,18 @@
                                             @foreach ($post->comments()->limit(2)->get() as $item)
                                                 <div class="flex">
                                                     <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                                        <img src="assets/images/avatars/avatar-1.jpg" alt=""
-                                                            class="absolute h-full rounded-full w-full">
+                                                        @if ($item->user->profile)
+                                                        <img src="{{ asset('/storage/'.$item->user->profile) }}" alt=""
+                                                        class="absolute h-full rounded-full w-full">
+                                                        @else
+                                                        <img src="assets/images/avatars/avatar-2.jpg" alt=""
+                                                            class="absolute h-full rounded-full w-full">     
+                                                        @endif
+                                                       
                                                     </div>
                                                     <div
                                                         class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 h-full relative lg:ml-5 ml-2 lg:mr-20  dark:bg-gray-800 dark:text-gray-100">
-                                                        <p class="leading-6">{{ $item->body }} <urna
-                                                                class="i uil-heart"></urna> <i
-                                                                class="uil-grin-tongue-wink"> </i> </p>
+                                                        <p class="leading-6">{{ $item->body }}</p>
                                                         <div
                                                             class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800">
                                                         </div>

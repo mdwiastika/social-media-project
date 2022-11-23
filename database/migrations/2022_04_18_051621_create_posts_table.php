@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('content');
             $table->string('image', 500)->nullable()->default(null);
             $table->foreignId('user_id');
+            $table->enum('active', ['true', 'false'])->default('true');
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
         });

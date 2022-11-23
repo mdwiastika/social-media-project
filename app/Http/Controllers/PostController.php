@@ -27,13 +27,19 @@ class PostController extends Controller
     public function index(Post $post, Request $request)
     {
         $user = Auth::user()->follows->pluck('id');
-        // $stt = User::where('id', $user)->orWhere('id', Auth::user()->id)->get();
         $storiesRaw = Story::whereIn('user_id', $user)->orWhere('user_id', Auth::user()->id)->whereNot(function ($sto) {
             $sto->where('created_at', '<=', now()->subDay());
-        })->get();
+        })->where('active', 'true')->get();
         $storiesUser = $storiesRaw->groupBy('user_id');
-        $postsaya = Post::whereIn('user_id', $user)->orWhere('user_id', Auth::user()->id)->latest()->paginate(2);
+        $postsaya = Post::whereIn('user_id', $user)->orWhere('user_id', Auth::user()->id)->where('active', 'true')->latest()->paginate(2);
+        $latestPosts = Post::whereIn('user_id', $user)->orWhere('user_id', Auth::user()->id)->where('active', 'true')->latest()->limit(4)->get();
         $data = Follow::where('following_user_id', auth()->User()->id)->count();
+        $randomFollow = User::whereNot(function ($rf) {
+            $rf->where('id', Auth::id());
+        })->whereNot(function ($rn) {
+            $rn->where('role', 'admin');
+        })->whereNotIn('id', $user)->where('active', 'true')->limit(3)->get();
+        // dd($user);
         if ($request->ajax()) {
             return view('paginatefeed', [
                 'title' => 'feed',
@@ -49,11 +55,13 @@ class PostController extends Controller
             'title' => 'feed',
             'posts' => $postsaya,
             'user' => auth()->User()->id,
-            'count' => Post::where('user_id', auth()->user()->id)->get(),
+            'count' => Post::where('user_id', auth()->user()->id)->where('active', 'true')->get(),
             'followers' => $data,
             'likeUser' => Like::where('user_id', auth()->user()->id)->pluck('user_id'),
             'likePost' => Like::where('user_id', auth()->user()->id)->pluck('post_id'),
             'storiesUser' => $storiesUser,
+            'randomFollows' => $randomFollow,
+            'latestPosts' => $latestPosts,
         ]);
     }
 
@@ -167,5 +175,14 @@ class PostController extends Controller
         }
         $post->delete();
         return redirect('/feed');
+    }
+    public function trending()
+    {
+        return view('trending', [
+            'title' => 'trending',
+            'posts' => Post::where('user_id', auth()->User()->id)->latest()->get(),
+            'user' => auth()->User()->id,
+            'count' => Post::where('user_id', auth()->User()->id)->get()
+        ]);
     }
 }

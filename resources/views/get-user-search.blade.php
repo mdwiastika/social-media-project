@@ -10,7 +10,7 @@
                 @csrf
                 <button>
 
-                    <a style="display: inline" class="inline-flex items-center py-2 px-4 text-sm font-medium text-center text-white bg-pink-500 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <a style="display: inline" class="inline-flex items-center py-2 px-4 text-sm font-medium text-center text-white bg-pink-500 rounded-lg hover:bg-blue-400 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         @if (Auth::user()->follows()->where('following_user_id', $user->id)->first())
                         Unfollow
                         @else

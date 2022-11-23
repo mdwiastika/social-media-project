@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('content');
             $table->enum('seen', [1, 2])->default(1);
             $table->foreignId('user_id')->constrained('users');
+            $table->enum('active', ['true', 'false'])->default('true');
             $table->timestampsTz();
             $table->softDeletesTz();
         });
