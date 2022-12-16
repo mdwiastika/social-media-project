@@ -40,6 +40,7 @@
                 <li><a href="/admin/table/users" style="color: {{ $act == 'tableusers' ? 'red' : '' }}">Data Users</a></li>
                 <li><a href="/admin/table/posts" style="color: {{ $act == 'tableposts' ? 'red' : '' }}">Data Posts</a></li>
                 <li><a href="/admin/table/stories" style="color: {{ $act == 'tablestories' ? 'red' : '' }}">Data Stories</a></li>
+                <li><a href="/admin/table/bandings" style="color: {{ $act == 'tablebandings' ? 'red' : '' }}">Data Bandings</a></li>
             </ul>
         </li>
         @endif

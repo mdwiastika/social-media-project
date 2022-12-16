@@ -27,6 +27,7 @@
 
         </div>
         <div class="right-side lg:pr-4">
+            @if (auth()->user()->active == 'true')
              <!-- upload -->
             <a href="/create"
                 class="bg-pink-600 flex font-bold hidden hover:bg-fuchsia-500 hover:text-white inline-block items-center lg:block max-h-10 mr-4 px-4 py-1 rounded shadow text-white">
@@ -119,7 +120,7 @@
                     </form>
                 </ul>
             </div>
-
+            @endif
         </div>
     </div>
 </header>

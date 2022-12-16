@@ -8,6 +8,7 @@ use App\Models\Post;
 use App\Models\Story;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -27,9 +28,8 @@ class PostController extends Controller
     public function index(Post $post, Request $request)
     {
         $user = Auth::user()->follows->pluck('id');
-        $storiesRaw = Story::whereIn('user_id', $user)->orWhere('user_id', Auth::user()->id)->whereNot(function ($sto) {
-            $sto->where('created_at', '<=', now()->subDay());
-        })->where('active', 'true')->get();
+        $user->push(auth()->user()->id);
+        $storiesRaw = Story::whereIn('user_id', $user)->where('active', 'true')->where('created_at', '>=', Carbon::now()->subDay())->get();
         $storiesUser = $storiesRaw->groupBy('user_id');
         $postsaya = Post::whereIn('user_id', $user)->orWhere('user_id', Auth::user()->id)->where('active', 'true')->latest()->paginate(2);
         $latestPosts = Post::whereIn('user_id', $user)->orWhere('user_id', Auth::user()->id)->where('active', 'true')->latest()->limit(4)->get();

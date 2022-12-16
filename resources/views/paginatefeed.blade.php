@@ -125,7 +125,7 @@
                                                             </div>
                                                             <strong>{{ $item->user->username }}
                                                             </strong>{{ $item->body }}
-                                                            <span class="fas fa-reply" style="cursor: pointer" id="replyCommentUser"></span>
+                                                            <span class="uil-corner-down-right-alt" style="cursor: pointer" id="replyCommentUser"></span>
                                                         </form>
                                                     </div>
                                                 </div>
@@ -446,7 +446,7 @@
 
                                         <div
                                             class="bg-gray-100 bg-gray-100 rounded-full rounded-md relative dark:bg-gray-800">
-                                            <form>
+                                            <form id="formComment">
                                                 @csrf
                                                 <input type="text" name="comment_body"
                                                     placeholder="Add your Comment.."
@@ -473,3 +473,8 @@
                         </div>
                     @endforeach
                     
+                    {{-- <script>
+                        formComment.addEventListener('submit', function (event) { 
+                            console.log('okeeee');
+                         });
+                    </script> --}}

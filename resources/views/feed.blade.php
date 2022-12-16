@@ -429,6 +429,7 @@
         </script>
         <script>
             $(document).on("click", "#replyCommentUser", function(event) {
+                console.log(event.target);
                 let comment_id = event.target.previousElementSibling.previousElementSibling.getAttribute('value');
                 let comment_head = document.querySelectorAll('.comment_reply');
                 let panah_head = document.querySelectorAll('.selalu-ada');

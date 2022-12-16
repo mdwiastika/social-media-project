@@ -1,10 +1,12 @@
 <?php
 
 use App\Events\MessageCreated;
+use App\Http\Controllers\Admin\BandingController as AdminBandingController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Admin\StoryController as AdminStoryController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\BandingController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\LikeController;
@@ -42,27 +44,32 @@ Route::group(['middleware' => 'guest'], function () {
 // Auth User Access
 Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'is_user'], function () {
-        Route::prefix('feed')->group(function () {
-            Route::get('/', [PostController::class, 'index'])->middleware('auth');
-            Route::post('/like', [LikeController::class, 'store'])->name('like.add');
-            Route::post('/comment', [CommentController::class, 'store'])->name('comment.add');
-        });
-        Route::prefix('profile')->group(function () {
-            Route::get('/{user}', [UserController::class, 'index'])->middleware('auth');
-            Route::post('/follow/{user:username}', [FollowController::class, 'store'])->name('follow.store');
-        });
-        Route::prefix('story')->group(function () {
-            Route::get('/create', [StoryController::class, 'create'])->middleware('auth');
-            Route::post('/', [StoryController::class, 'store'])->middleware('auth');
-        });
-        Route::resource('/post', PostController::class)->middleware('auth');
-        Route::resource('/', PostController::class)->middleware('auth');
+        Route::group(['middleware' => 'active_user'], function () {
+            Route::prefix('feed')->group(function () {
+                Route::get('/', [PostController::class, 'index'])->middleware('auth');
+                Route::post('/like', [LikeController::class, 'store'])->name('like.add');
+                Route::post('/comment', [CommentController::class, 'store'])->name('comment.add');
+            });
+            Route::prefix('profile')->group(function () {
+                Route::get('/{user}', [UserController::class, 'index'])->middleware('auth');
+                Route::post('/follow/{user:username}', [FollowController::class, 'store'])->name('follow.store');
+            });
+            Route::prefix('story')->group(function () {
+                Route::get('/create', [StoryController::class, 'create'])->middleware('auth');
+                Route::post('/', [StoryController::class, 'store'])->middleware('auth');
+            });
+            Route::resource('/post', PostController::class)->middleware('auth');
+            Route::resource('/', PostController::class)->middleware('auth');
 
-        //User & post Search Route
-        Route::resource('/user', UserController::class)->middleware('auth');
-        Route::post('/user/search', [UserController::class, 'search'])->name('user.search');
-        Route::get('/explore', [UserController::class, 'explore']);
-        Route::get('/trending', [PostController::class, 'trending']);
+            //User & post Search Route
+            Route::resource('/user', UserController::class)->middleware('auth');
+            Route::post('/user/search', [UserController::class, 'search'])->name('user.search');
+            Route::get('/explore', [UserController::class, 'explore']);
+            Route::get('/trending', [PostController::class, 'trending']);
+        });
+        Route::get('/uji-banding', [BandingController::class, 'index'])->name('uji-banding');
+        Route::get('uji-banding/create', [BandingController::class, 'create']);
+        Route::post('/uji-banding', [BandingController::class, 'store']);
     });
     // logout route
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
@@ -83,6 +90,10 @@ Route::group(['middleware' => 'auth'], function () {
                 // Route stories table && change stories status
                 Route::get('/stories', [AdminStoryController::class, 'index']);
                 Route::post('/story/update-status/{story}', [AdminStoryController::class, 'update'])->name('change-story-status');
+
+                // Route bandings table && destroy bandings table
+                Route::get('/bandings', [AdminBandingController::class, 'index']);
+                Route::delete('/bandings/{id}', [AdminBandingController::class, 'destroy']);
             });
         });
     });

@@ -1,3 +1,8 @@
+<style>
+    .text-nonaktif{
+        color:red;
+    }
+</style>
 <div class="sidebar">
     <div class="sidebar_header border-b border-gray-200 from-gray-100 to-gray-50 bg-gradient-to-t  uk-visible@s"> 
         <a href="#">
@@ -26,7 +31,9 @@
             </div>
             <a href="/user/{{ Auth::user()->username }}" class="text-xl font-medium capitalize mt-4 uk-link-reset">{{ auth()->User()->name }}
             </a>
+            <a href="" class="text-xl font-medium capitalize mt-4 text-nonaktif">{{ auth()->user()->active == 'false' ? 'Akun Di Nonaktifkan' : '' }}</a>
             <div class="flex justify-around w-full items-center text-center uk-link-reset text-gray-800 mt-6">
+                @if (auth()->user()->active == 'true')
                 <div>
                     <a href="#">
                         <strong>Post</strong>
@@ -45,11 +52,32 @@
                         <div> {{ Auth::user()->followers->count('user_id') }}</div>
                     </a>
                 </div>
+                @else
+                <div>
+                    <a href="#">
+                        <strong>Post</strong>
+                        <div>0</div>
+                    </a>
+                </div>
+                <div>
+                    <a href="#story-modal66" uk-toggle>
+                        <strong>Following</strong>
+                        <div> 0</div>
+                    </a>
+                </div>
+                <div>
+                    <a href="#story-modal77" uk-toggle>
+                        <strong>Followers</strong>
+                        <div> 0</div>
+                    </a>
+                </div>
+                @endif
             </div>
         </div>
         <hr class="-mx-4 -mt-1 uk-visible@s">
         <ul>
-            <li>
+            @if (auth()->user()->active == 'true')
+                <li>
                 @yield('feed')
                 <a href="/feed"> 
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -97,6 +125,27 @@
                         </button>
                 </form>
             </li>
+            @else
+            <li>
+                @yield('profile')
+                <a href="/uji-banding/create"> 
+                    <i class="fa-regular fa-user fa-xl" style="width: 20px"></i>
+                    <span> Uji Banding </span> </a>
+            </li>
+            <li>
+                <form action="/logout" method="POST" style="display: inline;">
+                    @csrf
+                    <button type="submit" style="display: inline-block;">
+                    <a>
+                    <svg style="display: inline-block" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                      </svg>
+                          <span> Logout </span>
+                        </a>
+                        </button>
+                </form>
+            </li>
+            @endif
         </ul>
     </div>
 </div>

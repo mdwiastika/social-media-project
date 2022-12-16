@@ -37,7 +37,6 @@
 <body>
 
     <div id="wrapper">
-
         @include('partials.sidebar')
         <div class="main_content">
             @include('partials.header')
