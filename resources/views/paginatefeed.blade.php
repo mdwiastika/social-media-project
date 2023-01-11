@@ -72,7 +72,7 @@
                                     </div>
                                     <div class="story-content p-4" data-simplebar id="kotakUntukComent{{ $post->id }}">
 
-                                        <p> {{ $post->content }} </p>
+                                        <p> {!! $post->content !!} </p>
 
                                         <div class="py-4 ">
                                             <hr class="-mx-4 my-3">

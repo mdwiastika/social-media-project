@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- Mirrored from demo.foxthemes.net/instellohtml/chat.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 25 Mar 2022 03:35:57 GMT -->
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,10 +23,8 @@
     ================================================== -->
     <link rel="stylesheet" href="{{ asset('/assets/css/uikit.css') }}">
     <link rel="stylesheet" href="{{ asset('/assets/css/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('/fontawesome/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/assets/css/tailwind.css') }}">
     {{-- <link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet"> --}}
-    {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
     <script src="{{ asset('assets/js/jquery-3.3.1.min.js') }}"></script>
 
     @yield('style')
@@ -128,7 +124,6 @@
             <script src="{{ asset('/assets/js/tippy.all.min.js') }}"></script>
             <script src="{{ asset('/assets/js/uikit.js') }}"></script>
             <script src="{{ asset('/assets/js/simplebar.js') }}"></script>
-            <script src="{{ asset('/fontawesome/js/all.min.js') }}"></script>
             {{-- <script src="{{ asset('assets/unpkg.com/ionicons@5.2.3/dist/ionicons.js') }}"></script> --}}
             <script>
         
