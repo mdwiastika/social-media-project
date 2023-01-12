@@ -30,7 +30,7 @@
                                 class="relative bg-gradient-to-tr from-yellow-600 to-pink-600 p-1 rounded-full transform -rotate-2 hover:rotate-3 transition hover:scale-105 m-1">
                                 @if (auth()->user()->profile)
                                 <img src="{{ asset('/storage/'.auth()->user()->profile) }}"
-                                    class="w-20 h-20 rounded-full border-2 border-white bg-gray-200">    
+                                    class="w-20 h-20 rounded-full border-2 border-white bg-gray-200">
                                 @else
                                 <img src="assets/images/avatars/avatar-2.jpg"
                                 class="w-20 h-20 rounded-full border-2 border-white bg-gray-200">
@@ -105,7 +105,7 @@
                                             <img src="assets/images/avatars/avatar-2.jpg"
                                             class="bg-gray-200 rounded-full w-10 h-10">
                                             @endif
-                                            
+
                                         </a>
                                         <div class="flex flex-col">
                                             <span class="block capitalize font-semibold"> {{ $randfollow->name }} </span>
@@ -313,6 +313,7 @@
                 </div>
             </div>
         @endforeach
+        {{-- Comment and like post --}}
         <script>
             var page = 1;
             var resPaginate;
@@ -328,7 +329,6 @@
                     let url = '{{ route('like.add') }}';
                     let hii = e.target.previousElementSibling.value;
                     let paginatePost = e.target.previousElementSibling.previousElementSibling.value;
-                    console.log(paginatePost);
                     $.ajax({
                         url: url,
                         type: "POST",
@@ -348,6 +348,7 @@
                         }
                     });
                 } else if (e.target.className == "uil-arrow-circle-right") {
+                    // for comment limit 2
                     let post_id = e.target.parentElement.previousElementSibling.value;
                     let user_id = e.target.parentElement.previousElementSibling.previousElementSibling.value;
                     let comment_body = e.target.parentElement.previousElementSibling.previousElementSibling
@@ -355,7 +356,6 @@
                     let commentBoxId = e.target.parentElement.parentElement.parentElement.parentElement.getAttribute(
                         'id');
                     let getPostPaginate = e.target.nextElementSibling.value;
-
                     let url = '{{ route('comment.add') }}';
                     let _token = $('input[name="_token"]').val();
                     $.ajax({
@@ -379,6 +379,7 @@
                         }
                     });
                 } else if (e.target.className == "moreeee") {
+                    // read more post description
                     let dots = e.target.previousElementSibling.children[0];
                     let moreText = e.target.previousElementSibling.children[1];
                     let btnText = e.target;
@@ -395,6 +396,7 @@
 
             });
         </script>
+        {{-- comment focus in single use modalr --}}
         <script>
             $(document).on("click", "#arrowKirim", function(event) {
                 const post_id = event.target.parentElement.previousElementSibling.previousElementSibling.value;
@@ -406,7 +408,6 @@
                 let loadID = event.target.parentElement.parentElement.parentElement.parentElement.parentElement
                     .getAttribute('id');
                 let getPostPaginate = event.target.nextElementSibling.value;
-                console.log(getPostPaginate);
                 $.ajax({
                     url: url,
                     type: "POST",
@@ -427,15 +428,14 @@
                 });
             });
         </script>
+        {{-- untuk show or hide reply comment user --}}
         <script>
             $(document).on("click", "#replyCommentUser", function(event) {
-                console.log(event.target);
                 let comment_id = event.target.previousElementSibling.previousElementSibling.getAttribute('value');
                 let comment_head = document.querySelectorAll('.comment_reply');
                 let panah_head = document.querySelectorAll('.selalu-ada');
                 let input_reply = event.target.previousElementSibling.previousElementSibling.children[0];
                 let panah = event.target.previousElementSibling.previousElementSibling.children[2];
-                console.log(panah);
                 panah_head.forEach(function(panahan) {
                     panahan.classList.add("tidak-ada");
                 })
@@ -449,6 +449,7 @@
 
             });
         </script>
+        {{-- for reply single user --}}
         <script>
             $(document).on("click", "#reply-comment-class", function(event) {
                 const comment_reply = event.target.parentElement.previousElementSibling.previousElementSibling.value;
@@ -459,7 +460,6 @@
                     .parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
                     .getAttribute('id');
                 const getPostPaginate = event.target.nextElementSibling.value
-                console.log(getPostPaginate);
                 let _token = $('input[name="_token"]').val();
                 let url = '{{ route('comment.add') }}';
                 $.ajax({
@@ -485,11 +485,11 @@
 
             });
         </script>
+        {{-- for load more post user --}}
         <script>
             infinteLoadMore(page);
             $(window).scroll(function() {
                 if ($(window).scrollTop() + $(window).height() + 100 >= $(document).height()) {
-                    // console.log(page);
                     page++;
                     infinteLoadMore(page);
                 }
@@ -516,5 +516,26 @@
                         console.log('Server error occured');
                     });
             }
+        </script>
+        {{-- Khusus untuk enter key press --}}
+        <script>
+            // komentar 2 item
+            $(document).on('submit', '#formComment', function (event) {
+                event.preventDefault();
+                let submit_button = event.target.children[4].children[0];
+                submit_button.click();
+            });
+            // full komentar
+            $(document).on('submit', '#fullFormComment', function (event) {
+                event.preventDefault();
+                const rowKirim = event.target.children[4].children[0];
+                rowKirim.click();
+            });
+            // reply comment
+            $(document).on('submit', '#replyCommentForm', function (event) {
+                event.preventDefault();
+                const row_kirim = event.target.children[1].children[2].children[0];
+                row_kirim.click();
+            });
         </script>
     @endsection

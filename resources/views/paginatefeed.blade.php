@@ -60,7 +60,7 @@
                                                     <img src="assets/images/avatars/avatar-2.jpg"
                                                         class="bg-gray-200 border border-white rounded-full w-8 h-8">
                                                     @endif
-                                                    
+
                                                 </div>
                                             </a>
                                             <span class="block text-lg font-semibold"> {{ $post->user->name }} </span>
@@ -86,13 +86,13 @@
                                                 <div class="flex flex-1 items-center space-x-2">
                                                     @if ($item->user->profile)
                                                     <img src="{{ asset('/storage/'.$item->user->profile) }}"
-                                                        class="rounded-full w-8 h-8">    
-                                                    @else    
+                                                        class="rounded-full w-8 h-8">
+                                                    @else
                                                     <img src="assets/images/avatars/avatar-2.jpg"
                                                         class="rounded-full w-8 h-8">
                                                     @endif
                                                     <div class="flex-1 p-2">
-                                                        <form action="">
+                                                        <form action="" id="replyCommentForm">
                                                             <style>
                                                                 .sini-sini {
                                                                     display: flex;
@@ -151,7 +151,7 @@
                                     </div>
                                     <div class="p-3 border-t dark:border-gray-600">
                                         <div class="bg-gray-200 dark:bg-gray-700 rounded-full rounded-md relative">
-                                            <form action="">
+                                            <form action="" id="fullFormComment">
                                                 @csrf
                                                 <input type="hidden" name="user_id" id="user_id"
                                                     value="{{ auth()->user()->id }}">
@@ -381,7 +381,7 @@
                                                      @if ($item != $post->id)
                                                           @else
                                                               red
-                                                              @break       
+                                                              @break
                                                           @endif @endforeach"></i>
                                             </div>
                                             <div id="likee{{ $post }}">{{ $post->likes()->count('user_id') }}
@@ -429,9 +429,9 @@
                                                         class="absolute h-full rounded-full w-full">
                                                         @else
                                                         <img src="assets/images/avatars/avatar-2.jpg" alt=""
-                                                            class="absolute h-full rounded-full w-full">     
+                                                            class="absolute h-full rounded-full w-full">
                                                         @endif
-                                                       
+
                                                     </div>
                                                     <div
                                                         class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 h-full relative lg:ml-5 ml-2 lg:mr-20  dark:bg-gray-800 dark:text-gray-100">
@@ -465,16 +465,10 @@
 
                                         </div>
                                     </div>
- 
+
                                 </div>
 
                             </div>
 
                         </div>
                     @endforeach
-                    
-                    {{-- <script>
-                        formComment.addEventListener('submit', function (event) { 
-                            console.log('okeeee');
-                         });
-                    </script> --}}
