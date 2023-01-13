@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ChMessage;
 use App\Models\Follow;
 use App\Models\Like;
 use App\Models\Post;
@@ -27,6 +28,7 @@ class PostController extends Controller
      */
     public function index(Post $post, Request $request)
     {
+        $countMessage = ChMessage::where('to_id', Auth::id())->where('seen', 0)->count();
         $user = Auth::user()->follows->pluck('id');
         $user->push(auth()->user()->id);
         $storiesRaw = Story::whereIn('user_id', $user)->where('active', 'true')->where('created_at', '>=', Carbon::now()->subDay())->get();
@@ -62,6 +64,7 @@ class PostController extends Controller
             'storiesUser' => $storiesUser,
             'randomFollows' => $randomFollow,
             'latestPosts' => $latestPosts,
+            'unreadMessage' => $countMessage,
         ]);
     }
 
@@ -72,11 +75,13 @@ class PostController extends Controller
      */
     public function create(Post $post)
     {
+        $countMessage = ChMessage::where('to_id', Auth::id())->where('seen', 0)->count();
         $data = Follow::where('following_user_id', auth()->User()->id)->count();
         return view('create', [
             'title' => 'create',
             'count' => $post->where('user_id', auth()->User()->id)->get(),
-            'followers' => $data
+            'followers' => $data,
+            'unreadMessage' => $countMessage,
         ]);
     }
 
@@ -127,11 +132,13 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         $data = Follow::where('following_user_id', auth()->User()->id)->count();
+        $countMessage = ChMessage::where('to_id', Auth::id())->where('seen', 0)->count();
         return view('edit', [
             'title' => 'edit',
             'count' => $post->where('user_id', auth()->User()->id)->get(),
             'post' => $post,
             'followers' => $data,
+            'unreadMessage' => $countMessage,
         ]);
     }
 
@@ -178,11 +185,13 @@ class PostController extends Controller
     }
     public function trending()
     {
+        $countMessage = ChMessage::where('to_id', Auth::id())->where('seen', 0)->count();
         return view('trending', [
             'title' => 'trending',
             'posts' => Post::where('user_id', auth()->User()->id)->latest()->get(),
             'user' => auth()->User()->id,
-            'count' => Post::where('user_id', auth()->User()->id)->get()
+            'count' => Post::where('user_id', auth()->User()->id)->get(),
+            'unreadMessage' => $countMessage,
         ]);
     }
 }

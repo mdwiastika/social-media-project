@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ChMessage;
 use App\Models\User;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class UserController extends Controller
      */
     public function index(User $user)
     {
-
+        $countMessage = ChMessage::where('to_id', Auth::id())->where('seen', 0)->count();
         $data = Follow::where('following_user_id', auth()->User()->id)->count();
         return view('profile', [
             'title' => 'profile',
@@ -28,6 +29,7 @@ class UserController extends Controller
             'count2' => Post::where('user_id', $user->id)->where('active', 'true')->get(),
             'count' => Post::where('user_id', auth()->user()->id)->where('active', 'true')->get(),
             'followers' => $data,
+            'unreadMessage' => $countMessage,
         ]);
     }
     /**
@@ -77,12 +79,14 @@ class UserController extends Controller
     public function edit(Request $request, User $user)
     {
         $data = Follow::where('following_user_id', auth()->User()->id)->count();
+        $countMessage = ChMessage::where('to_id', Auth::id())->where('seen', 0)->count();
         return view('editprofile', [
             'title' => 'Edit Profile',
             'posts' => Post::where('user_id', $user->id)->latest()->get(),
             'usere' => $user,
             'count' => Post::where('user_id', $user->id)->get(),
             'followers' => $data,
+            'unreadMessage' => $countMessage,
         ]);
     }
 
@@ -138,11 +142,13 @@ class UserController extends Controller
     }
     public function explore()
     {
+        $countMessage = ChMessage::where('to_id', Auth::id())->where('seen', 0)->count();
         return view('explore', [
             'title' => 'explore',
             'posts' => Post::where('user_id', auth()->User()->id)->latest()->get(),
             'user' => auth()->User()->id,
-            'count' => Post::where('user_id', auth()->User()->id)->get()
+            'count' => Post::where('user_id', auth()->User()->id)->get(),
+            'unreadMessage' => $countMessage,
         ]);
     }
 }
