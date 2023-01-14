@@ -37,6 +37,7 @@ class RegisterController extends Controller
      */
     public function store(Request $request)
     {
+        $userLength = User::count();
         $validatedData = $request->validate([
             'name' => 'required|max:255|',
             'username' => 'required|min:4|max:255|unique:users',
@@ -44,6 +45,11 @@ class RegisterController extends Controller
             'password' => 'required|min:5|max:255'
         ]);
         $validatedData['password'] = bcrypt($validatedData['password']);
+        if ($userLength) {
+            $validatedData['role'] = 'user';
+        } else {
+            $validatedData['role'] = 'admin';
+        }
         User::create($validatedData);
         return redirect('/form-login')->with('success', 'Registration successfull! Please Login');
     }
