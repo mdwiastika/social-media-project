@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('content');
             $table->string('image', 500)->nullable()->default(null);
-            $table->foreignId('user_id');
+            $table->foreignId('user_id')->onDelete('cascade');
             $table->enum('active', ['true', 'false'])->default('true');
             $table->timestamp('published_at')->nullable();
             $table->timestamps();

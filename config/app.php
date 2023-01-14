@@ -168,6 +168,7 @@ return [
          * Package Service Providers...
          */
         \Chatify\ChatifyServiceProvider::class,
+        \AzisHapidin\IndoRegion\IndoRegionServiceProvider::class,
         /*
          * Application Service Providers...
          */

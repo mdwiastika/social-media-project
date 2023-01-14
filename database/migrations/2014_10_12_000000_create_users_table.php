@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('profile')->nullable()->default(null);
             $table->string('bio')->nullable()->default(null);
+            $table->integer('coin')->nullable()->default(0);
             $table->enum('role', ['user', 'admin'])->default('user');
             $table->enum('active', ['true', 'false'])->default('true');
             $table->rememberToken();

@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('bandings', function (Blueprint $table) {
             $table->id();
             $table->string('image');
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->longText('alasan_banding');
             $table->timestamps();
         });
