@@ -97,7 +97,7 @@
                       }
                     </style>
                     <div class="sini-sini">
-                      <input type="hidden" name="comment_reply" id="comment_reply"
+                      <input type="hidden" name="comment_reply" id="comment_reply" autocomplete="off"
                         placeholder="reply {{ $item->user->username }}" class="comment_reply shadow-none"
                         style="background-color: rgb(253, 253, 253); color: black; display: inline; border: 1px solid black; border-radius: 5px">
                       <input type="hidden" id="parent_id" name="parent_id" value="{{ $item->id }}">
@@ -140,7 +140,8 @@
               @csrf
               <input type="hidden" name="user_id" id="user_id" value="{{ auth()->user()->id }}">
               <input type="hidden" name="post_id" id="post_id" value="{{ $post->id }}">
-              <input type="text" placeholder="Add your Comment.." class="bg-transparent max-h-8 shadow-none">
+              <input type="text" autocomplete="off" placeholder="Add your Comment.."
+                class="bg-transparent max-h-8 shadow-none">
               <div class="absolute bottom-0 flex h-full items-center right-0 right-3 text-xl space-x-2">
                 <i class="uil-arrow-circle-right" style="cursor: pointer" id="arrowKirim"></i>
                 <input type="hidden" value="{{ $posts->currentPage() }}">
@@ -417,7 +418,7 @@
           <div class="bg-gray-100 bg-gray-100 rounded-full rounded-md relative dark:bg-gray-800">
             <form id="formComment">
               @csrf
-              <input type="text" name="comment_body" placeholder="Add your Comment.."
+              <input type="text" autocomplete="off" name="comment_body" placeholder="Add your Comment.."
                 class="bg-transparent max-h-10 shadow-none" id="commentBox{{ $post->id }}">
               <input type="hidden" name="user_id" id="user_id2" value="{{ auth()->user()->id }}">
               <input type="hidden" name="post_id" id="post_id2" value="{{ $post->id }}">

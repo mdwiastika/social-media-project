@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\GetMidtrans;
 use App\Models\ChMessage;
 use App\Models\User;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Models\Follow;
+use App\Models\Topup;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
@@ -22,6 +24,7 @@ class UserController extends Controller
     {
         $countMessage = ChMessage::where('to_id', Auth::id())->where('seen', 0)->count();
         $data = Follow::where('following_user_id', auth()->User()->id)->count();
+        $coins = Topup::all();
         return view('profile', [
             'title' => 'profile',
             'posts' => Post::where('user_id', $user->id)->where('active', 'true')->latest()->get(),
@@ -30,6 +33,24 @@ class UserController extends Controller
             'count' => Post::where('user_id', auth()->user()->id)->where('active', 'true')->get(),
             'followers' => $data,
             'unreadMessage' => $countMessage,
+            'coins' => $coins,
+        ]);
+    }
+    public function payment(Request $request)
+    {
+        $detail_item = [
+            'id' => $request->id_topup,
+            'price' => $request->price,
+            'quantity' => 1,
+            'name' => $request->name,
+        ];
+        $snapToken = GetMidtrans::getApiMidtrans($detail_item);
+        $countMessage = ChMessage::where('to_id', Auth::id())->where('seen', 0)->count();
+        $data = Follow::where('following_user_id', auth()->User()->id)->count();
+        $coins = Topup::all();
+        return view('payment', [
+            'title' => 'Pay Now!',
+            'snapToken' => $snapToken,
         ]);
     }
     /**

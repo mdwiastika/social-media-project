@@ -45,6 +45,10 @@ Route::group(['middleware' => 'guest'], function () {
 Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'is_user'], function () {
         Route::group(['middleware' => 'active_user'], function () {
+            Route::post('/payment', [UserController::class, 'payment']);
+            Route::get('/payment', function () {
+                return redirect('/profile/' . auth()->user()->username);
+            });
             Route::prefix('feed')->group(function () {
                 Route::get('/', [PostController::class, 'index'])->middleware('auth');
                 Route::post('/like', [LikeController::class, 'store'])->name('like.add');

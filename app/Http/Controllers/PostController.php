@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\GetMidtrans;
 use App\Models\ChMessage;
 use App\Models\Follow;
 use App\Models\Like;
