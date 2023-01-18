@@ -11,6 +11,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\StoryController;
@@ -49,6 +50,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/payment', function () {
                 return redirect('/profile/' . auth()->user()->username);
             });
+            Route::post('/coin/transaction', [PaymentController::class, 'store']);
             Route::prefix('feed')->group(function () {
                 Route::get('/', [PostController::class, 'index'])->middleware('auth');
                 Route::post('/like', [LikeController::class, 'store'])->name('like.add');

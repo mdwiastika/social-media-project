@@ -51,6 +51,7 @@ class UserController extends Controller
         return view('payment', [
             'title' => 'Pay Now!',
             'snapToken' => $snapToken,
+            'coin' => $request->coin,
         ]);
     }
     /**
