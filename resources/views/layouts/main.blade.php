@@ -26,6 +26,8 @@
     <link rel="stylesheet" href="{{ asset('/assets/css/tailwind.css') }}">
     {{-- <link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet"> --}}
     <script src="{{ asset('assets/js/jquery-3.3.1.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('/assets/toastr/toastr.css') }}">
+    <script src="{{ asset('/assets/toastr/toastr.js') }}"></script>
     @if (request()->is('payment'))
     <script type="text/javascript"
     src="https://app.sandbox.midtrans.com/snap/snap.js"
@@ -96,10 +98,12 @@
                                                 {{ $user->pivot->created_at->diffForHumans() }} </span>
                                         </div>
                                     </div>
-
-                                    <a href="#"
-                                        class="border border-gray-200 font-semibold px-4 py-1 rounded-full hover:bg-pink-600 hover:text-white hover:border-pink-600 dark:border-gray-800">
-                                        Unfollow </a>
+                                    <form action="{{ route('follow.store', $user) }}" method="POST" id="follow_list">
+                                        @csrf
+                                        <button type="submit"
+                                            class="border border-gray-200 font-semibold px-4 py-1 rounded-full hover:bg-pink-600 hover:text-white hover:border-pink-600 dark:border-gray-800">
+                                            Unfollow </button>
+                                    </form>
                                 </div>
                             @endforeach
 

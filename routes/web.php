@@ -51,6 +51,7 @@ Route::group(['middleware' => 'auth'], function () {
                 return redirect('/profile/' . auth()->user()->username);
             });
             Route::post('/coin/transaction', [PaymentController::class, 'store']);
+            Route::post('/coin/send', [PaymentController::class, 'shareCoin']);
             Route::prefix('feed')->group(function () {
                 Route::get('/', [PostController::class, 'index'])->middleware('auth');
                 Route::post('/like', [LikeController::class, 'store'])->name('like.add');
@@ -76,6 +77,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/uji-banding', [BandingController::class, 'index'])->name('uji-banding');
         Route::get('uji-banding/create', [BandingController::class, 'create']);
         Route::post('/uji-banding', [BandingController::class, 'store']);
+        // Route::resource('/market', MarketCo)
     });
     // logout route
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');

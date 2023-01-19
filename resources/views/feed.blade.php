@@ -537,5 +537,36 @@
                 const row_kirim = event.target.children[1].children[2].children[0];
                 row_kirim.click();
             });
+            $(document).on('submit', '#shareCoin', async function (event) {
+                event.preventDefault();
+                const coin = event.target.children[1].value;
+                const post_id = event.target.children[2].value;
+                const user_id = event.target.children[3].value;
+                const _token = $('input[name="_token"]').val();
+                const data = {
+                    _token:_token,
+                    post_id:post_id,
+                    coin:coin,
+                    'user_id':user_id,
+                };
+                const fetching_data = await fetch('/coin/send',{
+                    "method":'POST',
+                    "headers":{
+                        "Content-Type": "application/json",
+                    },
+                    "body":JSON.stringify(data),
+            }).catch((err) => console.log(err));
+            const fetch_data = await fetching_data.json();
+            if (fetch_data.message == 'success') {
+                console.log(fetch_data);
+                toastr.success('Success send coin');
+            }else{
+                toastr.error('Can\'t send coin');
+            }
+            event.target.children[1].value='';
+            });
+        </script>
+        <script>
+
         </script>
     @endsection

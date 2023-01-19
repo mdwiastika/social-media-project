@@ -234,12 +234,30 @@
                   <i class="uil-share-alt mr-1"></i> Share
                 </a>
               </li>
-              <li>
+              {{-- <li>
                 <a href="#"
                   class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
                   <i class="uil-favorite mr-1"></i> Add favorites
                 </a>
+              </li> --}}
+              <li>
+                <a
+                  class="flex items-center px-3 py-2 hover:bg-gray-200 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
+                  <i class="uil-coins mr-1"></i> <button>Share Coin</button>
+                  <div uk-dropdown="mode: click">
+                    <div class="uk-margin">
+                        <form id="shareCoin">
+                        @csrf
+                        <input class="uk-input uk-form-success uk-form-width-medium" name="coin" type="number" placeholder="Send Coin" min="0" max="{{ auth()->user()->coin }}" value="0">
+                        <input type="hidden" name="post_id" value="{{ $post->id }}">
+                        <input type="hidden" name="user_id" value="{{ $post->user->id }}">
+                        <button type="submit" class="uk-button-danger px-3 py-1 mt-3" style="border-radius: 0.5em">Send</button>
+                        </form>
+                    </div>
+                  </div>
+                </a>
               </li>
+
               <li>
                 <hr class="-mx-2 my-2 dark:border-gray-800">
               </li>

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\CoinTransaction;
+use App\Models\Comment;
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,6 +34,39 @@ class PaymentController extends Controller
             return response()->json($request->all(), 202);
         } catch (\Throwable $th) {
             return response()->json($th->getMessage(), 503);
+        }
+    }
+    public function shareCoin(Request $request)
+    {
+        $validatedData = $request->validate([
+            'coin' => 'required|numeric',
+            'post_id' => 'required',
+            'user_id' => 'required',
+        ]);
+        if (auth()->user()->coin < $request->coin) {
+            return response()->json([
+                'message' => 'Coin tidak cukup',
+            ], 503);
+        } else {
+            // Pertukaran coin
+            $user = User::where('id', Auth::id())->first();
+            $user_get_coin = User::where('id', $request->user_id)->first();
+            $user->coin = $user->coin - $request->coin;
+            $user->save();
+            $user_get_coin->coin = $user_get_coin->coin + $request->coin;
+            $user_get_coin->save();
+
+            // comment coin
+            $comment = new Comment;
+            $comment->body = 'Send coin x' . $request->coin;
+            $comment->user()->associate(Auth::user());
+            $post = Post::find($request->post_id);
+            $post->comments()->save($comment);
+
+            return response()->json([
+                'message' => 'success',
+                'request' => $request->all(),
+            ], 202);
         }
     }
 }
