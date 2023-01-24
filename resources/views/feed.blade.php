@@ -30,10 +30,10 @@
                                 class="relative bg-gradient-to-tr from-yellow-600 to-pink-600 p-1 rounded-full transform -rotate-2 hover:rotate-3 transition hover:scale-105 m-1">
                                 @if (auth()->user()->profile)
                                 <img src="{{ asset('/storage/'.auth()->user()->profile) }}"
-                                    class="w-20 h-20 rounded-full border-2 border-white bg-gray-200">
+                                    class="w-20 h-20 rounded-full border-2 border-white bg-gray-200 object-cover">
                                 @else
                                 <img src="assets/images/avatars/avatar-2.jpg"
-                                class="w-20 h-20 rounded-full border-2 border-white bg-gray-200">
+                                class="w-20 h-20 rounded-full border-2 border-white bg-gray-200 object-cover">
                                 @endif
                                 <a href="/story/create"
                                     class=" bg-gray-400 p-2 rounded-full w-8 h-8 flex justify-center items-center text-white border-4 border-white absolute right-2 bottom-0 bg-blue-600">
@@ -54,7 +54,7 @@
                                             </video>
                                         @else
                                             <img src="{{ asset('/storage/' . $story->first()->image) }}"
-                                                class="w-20 h-20 rounded-full border-2 border-white bg-gray-200">
+                                                class="w-20 h-20 rounded-full border-2 border-white bg-gray-200 object-cover">
                                         @endif
                                     </div>
                                 </a>

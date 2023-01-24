@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ChMessage;
 use App\Models\Follow;
 use App\Models\Like;
 use App\Models\Post;
@@ -14,6 +15,7 @@ class StoryController extends Controller
     public function create()
     {
         $data = Follow::where('following_user_id', auth()->User()->id)->count();
+        $countMessage = ChMessage::where('to_id', Auth::id())->where('seen', 0)->count();
         return view('create-story', [
             'title' => 'Form Story',
             'user' => auth()->User()->id,
@@ -21,13 +23,14 @@ class StoryController extends Controller
             'followers' => $data,
             'likeUser' => Like::where('user_id', auth()->user()->id)->pluck('user_id'),
             'likePost' => Like::where('user_id', auth()->user()->id)->pluck('post_id'),
+            'unreadMessage' => $countMessage,
         ]);
     }
     public function store(Request $request)
     {
         $validatedData = $request->validate([
             'content' => 'required',
-            'image' => 'required|file|max:2000',
+            'image' => 'required|file|max:5000',
         ]);
         if ($request->has('image')) {
             $validatedData['image'] = $request->file('image')->store('stories');

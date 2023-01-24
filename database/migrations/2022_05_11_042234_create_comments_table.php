@@ -20,6 +20,7 @@ return new class extends Migration
             $table->text('body');
             $table->integer('commentable_id')->constrained('posts')->onDelete('cascade');
             $table->string('commentable_type');
+            $table->enum('coin', ['nonactive', 'active']);
             $table->timestamps();
         });
     }

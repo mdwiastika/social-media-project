@@ -60,6 +60,7 @@ class PaymentController extends Controller
             $comment = new Comment;
             $comment->body = 'Send coin x' . $request->coin;
             $comment->user()->associate(Auth::user());
+            $comment->coin = 'active';
             $post = Post::find($request->post_id);
             $post->comments()->save($comment);
 

@@ -62,7 +62,7 @@
                                 <input type="hidden" name="id_topup" value="K-000{{ $coin->id }}">
                                 <input type="hidden" name="price" value="{{ $coin->price }}">
                                 <h2 class="mt-1 uk-text-danger">Rp {{ number_format($coin->price, 0, '.', ',') }}</h2>
-                                <button type="submit">Pay!</button>
+                                <button type="submit" class="border-1 shadow-md rounded-lg px-3 py-2">Pay!</button>
                             </form>
                         </div>
                     </div>

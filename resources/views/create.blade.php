@@ -23,8 +23,8 @@
                <div>
                   <span id='button' style="background-color: white; border: 5px; padding: 10px; cursor: pointer;">Select
                      File</span>
-                  <input type="file" id="image" name="image[]" class="form-control" multiple
-                     onchange="previewImage()" style="color: transparent; opacity: 0;">
+                  <input type="file" id="image" name="image[]" class="form-control" multiple max="5"
+                     onchange="previewImage()" style="color: transparent; opacity: 0;" accept="image/*,video/*">
                </div>
 
                <img class="img-preview img-fluid my-3 col-sm-5">

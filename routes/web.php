@@ -13,6 +13,7 @@ use App\Http\Controllers\LikeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\StoryController;
 use App\Http\Controllers\UserController;
@@ -77,7 +78,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/uji-banding', [BandingController::class, 'index'])->name('uji-banding');
         Route::get('uji-banding/create', [BandingController::class, 'create']);
         Route::post('/uji-banding', [BandingController::class, 'store']);
-        // Route::resource('/market', MarketCo)
+        Route::resource('/product', ProductController::class);
     });
     // logout route
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');

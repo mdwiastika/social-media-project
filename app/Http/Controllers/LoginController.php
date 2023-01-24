@@ -44,9 +44,9 @@ class LoginController extends Controller
         ]);
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('/feed');
+            return redirect()->intended('/feed')->with('success', 'Login succesfully!');
         }
-        return back()->with('loginError', 'login failed');
+        return back()->with('loginError', 'login failed')->with('error', 'Username or password doesn\'t match');
     }
     public function logout(Request $request)
     {

@@ -1,8 +1,8 @@
 @foreach ($users as $user)
-    
+
 <div class="w-full max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 pb-4">
     <div class="flex flex-col items-center pb-4 pt-4">
-        <img class="mb-3 w-24 h-24 rounded-full shadow-lg" src="{{ $user->profile ? asset('/storage/'. $user->profile) : asset('assets/images/avatars/avatar-2.jpg') }}" alt="Bonnie image">
+        <img class="mb-3 w-24 h-24 rounded-full shadow-lg object-cover" src="{{ $user->profile ? asset('/storage/'. $user->profile) : asset('assets/images/avatars/avatar-2.jpg') }}" alt="Bonnie image">
         <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">{{ $user->name }}</h5>
         <span class="text-sm text-gray-500 dark:text-gray-400"> {{ $user->username }} </span>
         <div class="flex mt-4 space-x-3 md:mt-6 py-4 text-white">
@@ -15,7 +15,7 @@
                         Unfollow
                         @else
                         Follow
-                        @endif  
+                        @endif
                     </a>
                 </button>
             </form>

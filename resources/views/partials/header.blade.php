@@ -38,7 +38,7 @@
 
         <!-- Notification -->
         @if (request()->is('profile/' . auth()->user()->username))
-          <a href="#coin-modal" uk-tooltip="title:Top-up" uk-toggle class="px-2 py-1 border-4">
+          <a href="#coin-modal" uk-tooltip="title:Top-up" uk-toggle class="px-2 py-1 border-2 shadow-lg rounded-lg">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
               style="fill: gold; width: 9px; display: inline-block; margin-top: -10px">
               <path
@@ -89,9 +89,9 @@
 
         <a href="#">
           @if (auth()->user()->profile)
-            <img src={{ asset('/storage/' . auth()->user()->profile) }} class="header-avatar" alt="">
+            <img src={{ asset('/storage/' . auth()->user()->profile) }} class="header-avatar object-cover" alt="">
           @else
-            <img src={{ asset('/assets/images/avatars/avatar-2.jpg') }} class="header-avatar" alt="">
+            <img src={{ asset('/assets/images/avatars/avatar-2.jpg') }} class="header-avatar object-cover" alt="">
           @endif
         </a>
         <div uk-drop="mode: click;offset:9" class="header_dropdown profile_dropdown border-t">

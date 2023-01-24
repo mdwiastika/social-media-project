@@ -22,10 +22,10 @@
                 class="bg-gradient-to-tr from-yellow-600 to-pink-600 p-1 rounded-full transition m-0.5 mr-2  w-24 h-24">
                 @if (auth()->user()->profile)
                     <img src={{ asset('storage/' . auth()->user()->profile) }}
-                        class="bg-gray-200 border-4 border-white rounded-full w-full h-full">
+                        class="bg-gray-200 border-4 border-white rounded-full w-full h-full object-cover">
                 @else
                     <img src={{ asset('/assets/images/avatars/avatar-2.jpg') }}
-                        class="bg-gray-200 border-4 border-white rounded-full w-full h-full">
+                        class="bg-gray-200 border-4 border-white rounded-full w-full h-full object-cover">
                 @endif
 
             </div>
@@ -129,7 +129,7 @@
                 </li>
                 <li>
                     @yield('marketplace')
-                    <a href="/marketplace">
+                    <a href="/product">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                             style="fill: currentColor;transform: ;msFilter:;">
                             <path

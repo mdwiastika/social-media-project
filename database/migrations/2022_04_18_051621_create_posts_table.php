@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->string('content');
+            $table->longText('content');
             $table->string('image', 500)->nullable()->default(null);
             $table->foreignId('user_id')->onDelete('cascade');
             $table->enum('active', ['true', 'false'])->default('true');

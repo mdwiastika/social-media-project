@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <!-- Favicon -->
     <link href="assets/images/favicon.png" rel="icon" type="image/png">
-    
+
     <!-- Basic Page Needs
     ================================================== -->
     <title>{{ $title }}</title>
@@ -18,7 +18,7 @@
     ================================================== -->
     <link rel="stylesheet" href="assets/css/icons.css">
 
-    <!-- CSS 
+    <!-- CSS
     ================================================== -->
     <link rel="stylesheet" href="assets/css/uikit.css">
     <link rel="stylesheet" href="assets/css/style.css">
@@ -109,7 +109,7 @@
                 </form>
             </div>
         </div>
-        
+
         <!-- Footer -->
 
         <div class="lg:mb-5 py-3 uk-link-reset">
@@ -120,14 +120,14 @@
                     <a href="#"> Terms</a>
                     <a href="#"> Privacy</a>
                 </div>
-                <p class="capitalize"> © copyright 2020 by Instello</p>
+                <p class="capitalize"> © copyright 2020 by Somedisi</p>
             </div>
         </div>
 
     </div>
 
     <script>
-        
+
         (function (window, document, undefined) {
             'use strict';
             if (!('localStorage' in window)) return;
@@ -136,19 +136,19 @@
                 document.documentElement.className += ' dark';
             }
         })(window, document);
-    
-    
+
+
         (function (window, document, undefined) {
-    
+
             'use strict';
-    
+
             // Feature test
             if (!('localStorage' in window)) return;
-    
+
             // Get our newly insert toggle
             var nightMode = document.querySelector('#night-mode');
             if (!nightMode) return;
-    
+
             // When clicked, toggle night mode on or off
             nightMode.addEventListener('click', function (event) {
                 event.preventDefault();
@@ -159,7 +159,7 @@
                 }
                 localStorage.removeItem('gmtNightMode');
             }, false);
-    
+
         })(window, document);
     </script>
 

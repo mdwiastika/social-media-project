@@ -82,7 +82,7 @@
                   <img src="assets/images/avatars/avatar-2.jpg" class="rounded-full w-8 h-8">
                 @endif
                 <div class="flex-1 p-2">
-                  <form action="" id="replyCommentForm">
+                  <form action="" id="replyCommentForm" class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 h-full">
                     <style>
                       .sini-sini {
                         display: flex;
@@ -109,9 +109,14 @@
                       <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
                       <input type="hidden" name="post_id" value="{{ $post->id }}">
                     </div>
-                    <strong>{{ $item->user->username }}
-                    </strong>{{ $item->body }}
+                    @if ($item->coin == 'active')
+                    <strong class="uk-text-warning uk-display-block">{{ $item->user->username }}</strong>
+                    {{ $item->body }}
+                    @else
+                    <strong class="uk-display-block">{{ $item->user->username }}</strong>
+                    {{ $item->body }}
                     <span class="uil-corner-down-right-alt" style="cursor: pointer" id="replyCommentUser"></span>
+                    @endif
                   </form>
                 </div>
               </div>
@@ -124,8 +129,8 @@
                     <img src="assets/images/avatars/avatar-2.jpg" class="rounded-full"
                       style="width: 20px; height: 20px">
                   @endif
-                  <div class="flex-1 p-2">
-                    <strong>{{ $reply->user->username }}
+                  <div class="flex-1 text-gray-700 py-2 px-3 rounded-md bg-gray-100 h-full">
+                    <strong class="uk-display-block">{{ $reply->user->username }}
                     </strong>{{ $reply->body }}
                   </div>
                 </div>
@@ -425,7 +430,11 @@
                 </div>
                 <div
                   class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 h-full relative lg:ml-5 ml-2 lg:mr-20  dark:bg-gray-800 dark:text-gray-100">
+                  @if ($item->coin == 'active')
+                  <p class="leading-6 uk-text-warning">{{ $item->body }}</p>
+                  @else
                   <p class="leading-6">{{ $item->body }}</p>
+                  @endif
                   <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 dark:bg-gray-800">
                   </div>
                 </div>

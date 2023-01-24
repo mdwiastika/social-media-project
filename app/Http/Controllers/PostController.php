@@ -95,7 +95,7 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'content' => 'required|max:500',
+            'content' => 'required|max:1500',
             'image' => 'required',
             'image.*' => 'file|max:6000'
         ]);
@@ -110,7 +110,7 @@ class PostController extends Controller
                 'image' => base64_encode(serialize($data))
             ]);
         }
-        return redirect('/');
+        return redirect('/')->with('success', 'Create post successfully!');
     }
 
     /**
@@ -153,7 +153,7 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         $rules = [
-            'content' => 'required|max:500',
+            'content' => 'required|max:1500',
             'image' => 'image|file|max:6000'
         ];
         $validatedData = $request->validate($rules);
@@ -165,7 +165,7 @@ class PostController extends Controller
         }
         $validatedData['user_id'] = auth()->user()->id;
         Post::where('id', $post->id)->update($validatedData);
-        return redirect('/');
+        return redirect('/')->with('success', 'Update post successfully!');
     }
 
     /**
@@ -182,7 +182,7 @@ class PostController extends Controller
             }
         }
         $post->delete();
-        return redirect('/feed');
+        return redirect('/feed')->with('warning', 'Delete post successfully!');
     }
     public function trending()
     {

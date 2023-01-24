@@ -17,5 +17,8 @@ class DatabaseSeeder extends Seeder
     {
         // Contact::factory(10)->create();
         // \App\Models\User::factory(10)->create();
+        $this->call([
+            IndoRegionSeeder::class,
+        ]);
     }
 }

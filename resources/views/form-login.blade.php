@@ -110,7 +110,7 @@
                     <a href="#"> Terms</a>
                     <a href="#"> Privacy</a>
                 </div>
-                <p class="capitalize"> © copyright 2020 by Instello</p>
+                <p class="capitalize"> © copyright 2020 by Somedisi</p>
             </div>
         </div>
 

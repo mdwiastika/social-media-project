@@ -21,7 +21,7 @@
         <span class="block text-sm font-medium text-slate-700 mb-3">Post Image</span>
         <div>
           <span id='button' style="background-color: white; border: 5px; padding: 10px">Select File</span>
-          <input type="file" id="image" name="image" class="form-control" onchange="previewImage()" style=" opacity: 0;">
+          <input type="file" id="image" name="image[]" class="form-control" multiple max="5" onchange="previewImage()" style=" opacity: 0;">
         </div>
         <input type="hidden" name="oldImage" value="{{ $post->image }}">
         <img src="{{ asset('storage/' . $post->image) }}" class="img-preview img-fluid my-3 col-sm-5 d-block">
