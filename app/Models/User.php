@@ -27,6 +27,9 @@ class User extends Authenticatable
         'bio',
         'role',
         'coin',
+        'google_id',
+        // 'provider',
+        // 'provider_id'
     ];
 
     /**

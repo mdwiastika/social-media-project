@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\BandingController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FollowController;
+use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PaymentController;
@@ -42,6 +43,8 @@ Route::group(['middleware' => 'guest'], function () {
     //register route
     Route::get('/form-register', [RegisterController::class, 'index']);
     Route::post('/form-register', [RegisterController::class, 'store']);
+    Route::get('/auth/google', [GoogleAuthController::class, 'redirect'])->name('google-auth');
+    Route::get('/auth/google/call-back', [GoogleAuthController::class, 'callbackGoogle']);
 });
 // Auth User Access
 Route::group(['middleware' => 'auth'], function () {

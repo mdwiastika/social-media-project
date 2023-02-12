@@ -41,7 +41,7 @@ class PostController extends Controller
             $rf->where('id', Auth::id());
         })->whereNot(function ($rn) {
             $rn->where('role', 'admin');
-        })->whereNotIn('id', $user)->where('active', 'true')->limit(3)->get();
+        })->whereNotIn('id', $user)->where('active', 'true')->inRandomOrder()->limit(2)->get();
         // dd($user);
         if ($request->ajax()) {
             return view('paginatefeed', [

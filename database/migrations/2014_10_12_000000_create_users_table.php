@@ -19,12 +19,15 @@ return new class extends Migration
             $table->string('username');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->string('profile')->nullable()->default(null);
             $table->string('bio')->nullable()->default(null);
             $table->integer('coin')->nullable()->default(0);
             $table->enum('role', ['user', 'admin'])->default('user');
             $table->enum('active', ['true', 'false'])->default('true');
+            $table->string('google_id')->nullable();
+            // $table->string('provider')->nullable()->default(null);
+            // $table->string('provider_id')->nullable()->default(null);
             $table->rememberToken();
             $table->timestamps();
         });
