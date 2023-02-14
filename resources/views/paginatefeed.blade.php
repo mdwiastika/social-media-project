@@ -364,16 +364,16 @@
     </div>
 
     <div class="py-3 px-4 space-y-3">
-      <div id="formUntuk{{ $post->id }}" class="space-y-3">
+      <div class="space-y-3">
         <div class="flex space-x-4 lg:font-bold">
-          <form class="flex items-center space-x-2">
+          <form id="formUntuk{{ $post->id }}" class="flex items-center space-x-2">
             @csrf
             <input type="hidden" name="user_name" id="user_name" value="{{ auth()->user()->name }}">
             <input type="hidden" name="user_id" id="user_id" value="{{ auth()->user()->id }}">
             <input type="hidden" name="post_id" id="post_id" value="{{ $post->id }}">
             <div class="p-2 rounded-full text-black">
               <input type="hidden" value="{{ $posts->currentPage() }}" id="getPaginate{{ $post->id }}">
-              <input type="hidden" value="formUntuk{{ $post->id }}">
+              <input type="hidden" value="Liked{{ $post->id }}">
               <i class="uil-thumbs-up"
                 style="color: @foreach ($likePost as $item)
                                                      @if ($item != $post->id)

@@ -26,8 +26,9 @@
                   <input type="file" id="image" name="image[]" class="form-control" multiple max="5"
                      onchange="previewImage()" style="color: transparent; opacity: 0;" accept="image/*,video/*">
                </div>
-
-               <img class="img-preview img-fluid my-3 col-sm-5">
+            <div class="img-preview flex justify-center gap-3 items-center" style="flex-wrap: wrap;">
+                <img class="img-fluid my-3 col-sm-5">
+            </div>
                @error('image')
                   <div class="flex items-center bg-blue-500 text-red-700 text-sm font-bold px-4" style="margin-bottom: 5px"
                      role="alert">
@@ -61,11 +62,18 @@
          function previewImage() {
             const image = document.querySelector('#image');
             const imgPreview = document.querySelector('.img-preview');
-            imgPreview.style.display = 'block';
-            const oFReader = new FileReader();
-            oFReader.readAsDataURL(image.files[0]);
-            oFReader.onload = function(oFREvent) {
-               imgPreview.src = oFREvent.target.result;
+            imgPreview.innerHTML = '';
+            for (let img_arr = 0; img_arr < image.files.length; img_arr++) {
+                const oFReader = new FileReader();
+                oFReader.readAsDataURL(image.files[img_arr]);
+                oFReader.onload = function(oFREvent) {
+                    const get_preview = document.createElement("img");
+                    get_preview.style.maxWidth = '300px';
+                    get_preview.style.maxHeight = '300px';
+                    get_preview.style.objectFit = 'contain';
+                    get_preview.src = oFREvent.target.result;
+                    imgPreview.appendChild(get_preview);
+                }
             }
          }
       </script>

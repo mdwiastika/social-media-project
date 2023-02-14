@@ -24,8 +24,10 @@
           <input type="file" id="image" name="image[]" class="form-control" multiple max="5" onchange="previewImage()" style=" opacity: 0;">
         </div>
         <input type="hidden" name="oldImage" value="{{ $post->image }}">
-        <img src="{{ asset('storage/' . $post->image) }}" class="img-preview img-fluid my-3 col-sm-5 d-block">
-            <img class="img-preview img-fluid my-3 col-sm-5">
+        {{-- <img src="{{ asset('storage/' . $post->image) }}" class="img-fluid my-3 col-sm-5 d-block"> --}}
+        <div class="img-preview flex justify-center gap-3 items-center" style="flex-wrap: wrap;">
+            <img class="img-fluid my-3 col-sm-5">
+        </div>
        @error('image')
                  <div class="flex items-center bg-blue-500 text-red-700 text-sm font-bold px-4" style="margin-bottom: 5px" role="alert">
                      <svg class="fill-current w-3 h-3 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" style="color: red"><path d="M12.432 0c1.34 0 2.01.912 2.01 1.957 0 1.305-1.164 2.512-2.679 2.512-1.269 0-2.009-.75-1.974-1.99C9.789 1.436 10.67 0 12.432 0zM8.309 20c-1.058 0-1.833-.652-1.093-3.524l1.214-5.092c.211-.814.246-1.141 0-1.141-.317 0-1.689.562-2.502 1.117l-.528-.88c2.572-2.186 5.531-3.467 6.801-3.467 1.057 0 1.233 1.273.705 3.23l-1.391 5.352c-.246.945-.141 1.271.106 1.271.317 0 1.357-.392 2.379-1.207l.6.814C12.098 19.02 9.365 20 8.309 20z"/></svg>
@@ -47,18 +49,24 @@
   </form>
   </div>
   <script>
-          function previewImage(){
-  const image = document.querySelector('#image');
-  const imgPreview = document.querySelector('.img-preview');
-  imgPreview.style.display = 'block';
-  const oFReader = new FileReader();
-  oFReader.readAsDataURL(image.files[0]);
-  oFReader.onload = function(oFREvent){
-    imgPreview.src = oFREvent.target.result;
-  }
-  }
-  $('#button').click(function(){
-   $("input[type='file']").trigger('click');
-})
+         function previewImage() {
+            console.log('oke');
+            const image = document.querySelector('#image');
+            const imgPreview = document.querySelector('.img-preview');
+            imgPreview.innerHTML = '';
+            for (let img_arr = 0; img_arr < image.files.length; img_arr++) {
+                const oFReader = new FileReader();
+                oFReader.readAsDataURL(image.files[img_arr]);
+                oFReader.onload = function(oFREvent) {
+                    const get_preview = document.createElement("img");
+                    get_preview.style.maxWidth = '300px';
+                    get_preview.style.maxHeight = '300px';
+                    get_preview.style.objectFit = 'contain';
+                    get_preview.src = oFREvent.target.result;
+                    console.log(imgPreview);
+                    imgPreview.appendChild(get_preview);
+                }
+            }
+         }
   </script>
 @endsection

@@ -327,8 +327,16 @@
                     let post_id = e.target.parentElement.previousElementSibling.getAttribute('value');
                     let _token = $('input[name="_token"]').val();
                     let url = '{{ route('like.add') }}';
-                    let hii = e.target.previousElementSibling.value;
+                    let form_reload = e.target.previousElementSibling.value;
                     let paginatePost = e.target.previousElementSibling.previousElementSibling.value;
+                    let count_like_post = e.target.parentElement.nextElementSibling;
+                    if (e.target.style.color == 'red') {
+                        e.target.style.color = 'black';
+                        count_like_post.innerHTML = `${parseInt(count_like_post.innerHTML) - 1}`;
+                    }else{
+                        e.target.style.color = 'red';
+                        count_like_post.innerHTML = `${parseInt(count_like_post.innerHTML) + 1}`;
+                    }
                     $.ajax({
                         url: url,
                         type: "POST",
@@ -340,7 +348,7 @@
                         },
                         success: function(response) {
                             if (response) {
-                                $('#' + hii).load(`/feed?page=${paginatePost} ` + '#' + hii);
+                                $('#' + form_reload).load(`/feed?page=${paginatePost} ` + '#' + form_reload);
                             }
                         },
                         error: function(error) {
