@@ -154,16 +154,17 @@ class PostController extends Controller
     {
         $rules = [
             'content' => 'required|max:1500',
-            'image' => 'image|file|max:6000'
+            'image.*' => 'image|file|max:6000'
         ];
         $validatedData = $request->validate($rules);
         if ($request->file('image')) {
-            if ($request->oldImage) {
-                Storage::delete($request->oldImage);
+            foreach ($request->file('image') as $imageSolo) {
+                $name = $imageSolo->store('imageini');
+                $data[] = $name;
             }
-            $validatedData['image'] = $request->file('image')->store('post-images');
         }
         $validatedData['user_id'] = auth()->user()->id;
+        $validatedData['image'] = base64_encode(serialize($data));
         Post::where('id', $post->id)->update($validatedData);
         return redirect('/')->with('success', 'Update post successfully!');
     }
