@@ -21,6 +21,7 @@ class GoogleAuthController extends Controller
             $get_duplicate_email = User::where('email', $google_user->getEmail())->first();
             if ($get_user) {
                 Auth::login($get_user);
+				return redirect()->intended('/feed');
             } else {
                 if (!$get_duplicate_email) {
                     $create_user = User::create([
