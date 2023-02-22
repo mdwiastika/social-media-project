@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 use App\Models\ChMessage;
 use App\Models\Follow;
 use App\Models\Like;
@@ -12,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 
 class StoryController extends Controller
 {
-    public function create()
+    public function create(): View
     {
         $data = Follow::where('following_user_id', auth()->User()->id)->count();
         $countMessage = ChMessage::where('to_id', Auth::id())->where('seen', 0)->count();
@@ -28,7 +30,7 @@ class StoryController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $validatedData = $request->validate([
             'content' => 'required',

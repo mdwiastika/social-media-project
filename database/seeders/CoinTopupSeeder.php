@@ -12,7 +12,7 @@ class CoinTopupSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $data = [
             ['coin' => 50, 'price' => 50000],

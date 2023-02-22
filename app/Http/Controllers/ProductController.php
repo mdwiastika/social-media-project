@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
 use App\Models\ChMessage;
 use App\Models\Follow;
 use App\Models\Post;
@@ -16,7 +17,7 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): View
     {
         $data = Follow::where('following_user_id', auth()->User()->id)->count();
         $countMessage = ChMessage::where('to_id', Auth::id())->where('seen', 0)->count();

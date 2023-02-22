@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use iLLuminate\Support\Facades\Auth;
 
@@ -12,7 +14,7 @@ class LoginController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): View
     {
         return view('form-login', [
             'title' => 'Form Login',
@@ -50,7 +52,7 @@ class LoginController extends Controller
         return back()->with('loginError', 'login failed')->with('error', 'Username or password doesn\'t match');
     }
 
-    public function logout(Request $request)
+    public function logout(Request $request): RedirectResponse
     {
         Auth::logout();
         $request->session()->invalidate();

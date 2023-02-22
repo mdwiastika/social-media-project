@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\View\View;
 use App\Http\Controllers\Controller;
 use App\Models\Banding;
 use App\Models\Post;
@@ -11,7 +12,7 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $users = User::where('role', 'user')->count();
         $posts = Post::count();

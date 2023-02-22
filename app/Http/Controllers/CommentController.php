@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -34,7 +35,7 @@ class CommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         if ($request->comment_parent) {
             $comment2 = new Comment;

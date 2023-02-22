@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use App\Models\ChMessage;
 use App\Models\Follow;
 use App\Models\Like;
@@ -26,7 +28,7 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Post $post, Request $request)
+    public function index(Post $post, Request $request): View
     {
         $countMessage = ChMessage::where('to_id', Auth::id())->where('seen', 0)->count();
         $user = Auth::user()->follows->pluck('id');
@@ -74,7 +76,7 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Post $post)
+    public function create(Post $post): View
     {
         $countMessage = ChMessage::where('to_id', Auth::id())->where('seen', 0)->count();
         $data = Follow::where('following_user_id', auth()->User()->id)->count();
@@ -93,7 +95,7 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $validatedData = $request->validate([
             'content' => 'required|max:1500',
@@ -132,7 +134,7 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit(Post $post)
+    public function edit(Post $post): View
     {
         $data = Follow::where('following_user_id', auth()->User()->id)->count();
         $countMessage = ChMessage::where('to_id', Auth::id())->where('seen', 0)->count();
@@ -153,7 +155,7 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, Post $post): RedirectResponse
     {
         $rules = [
             'content' => 'required|max:1500',
@@ -179,7 +181,7 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function destroy(Post $post): RedirectResponse
     {
         if ($post->image) {
             foreach (unserialize(base64_decode($post->image)) as $imm) {
@@ -191,7 +193,7 @@ class PostController extends Controller
         return redirect('/feed')->with('warning', 'Delete post successfully!');
     }
 
-    public function trending()
+    public function trending(): View
     {
         $countMessage = ChMessage::where('to_id', Auth::id())->where('seen', 0)->count();
 

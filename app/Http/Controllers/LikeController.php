@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use App\Models\Like;
 use Illuminate\Http\Request;
 
@@ -33,7 +34,7 @@ class LikeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         $coba = Like::where('user_id', auth()->user()->id)->where('post_id', $request->post_id)->exists();
         if ($coba) {

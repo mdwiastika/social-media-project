@@ -9,6 +9,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use AzisHapidin\IndoRegion\Traits\RegencyTrait;
 use Illuminate\Database\Eloquent\Model;
 
@@ -40,7 +42,7 @@ class Regency extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function province()
+    public function province(): BelongsTo
     {
         return $this->belongsTo(Province::class);
     }
@@ -50,7 +52,7 @@ class Regency extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function districts()
+    public function districts(): HasMany
     {
         return $this->hasMany(District::class);
     }

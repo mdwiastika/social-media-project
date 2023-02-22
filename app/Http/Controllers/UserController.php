@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use App\Helpers\GetMidtrans;
 use App\Models\ChMessage;
 use App\Models\Follow;
@@ -19,7 +21,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(User $user)
+    public function index(User $user): View
     {
         $countMessage = ChMessage::where('to_id', Auth::id())->where('seen', 0)->count();
         $data = Follow::where('following_user_id', auth()->User()->id)->count();
@@ -37,7 +39,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function payment(Request $request)
+    public function payment(Request $request): View
     {
         $detail_item = [
             'id' => $request->id_topup,
@@ -83,7 +85,7 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show(): View
     {
         // $data = Follow::where('following_user_id', auth()->User()->id)->count();
         // return view('profile', [
@@ -101,7 +103,7 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, User $user)
+    public function edit(Request $request, User $user): View
     {
         $data = Follow::where('following_user_id', auth()->User()->id)->count();
         $countMessage = ChMessage::where('to_id', Auth::id())->where('seen', 0)->count();
@@ -123,7 +125,7 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $user): RedirectResponse
     {
         $rules = [
             'name' => 'required|max:500',
@@ -154,7 +156,7 @@ class UserController extends Controller
         //
     }
 
-    public function search(Request $request)
+    public function search(Request $request): View
     {
         $user = '';
         if ($request->ajax()) {
@@ -170,7 +172,7 @@ class UserController extends Controller
         }
     }
 
-    public function explore()
+    public function explore(): View
     {
         $countMessage = ChMessage::where('to_id', Auth::id())->where('seen', 0)->count();
 

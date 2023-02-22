@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use App\Models\CoinTransaction;
 use App\Models\Comment;
 use App\Models\Post;
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 class PaymentController extends Controller
 {
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         try {
             $validatedData = $request->validate([
@@ -38,7 +39,7 @@ class PaymentController extends Controller
         }
     }
 
-    public function shareCoin(Request $request)
+    public function shareCoin(Request $request): JsonResponse
     {
         $validatedData = $request->validate([
             'coin' => 'required|numeric',

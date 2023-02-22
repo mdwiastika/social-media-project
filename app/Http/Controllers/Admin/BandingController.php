@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\View\View;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Models\Banding;
 use Illuminate\Support\Facades\Storage;
 
 class BandingController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         $bandings = Banding::all();
 
@@ -20,7 +22,7 @@ class BandingController extends Controller
         ]);
     }
 
-    public function destroy($id)
+    public function destroy($id): JsonResponse
     {
         try {
             $banding = Banding::where('id', $id)->first();

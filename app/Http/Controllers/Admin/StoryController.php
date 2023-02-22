@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\View\View;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Models\Story;
 use Illuminate\Http\Request;
@@ -13,7 +15,7 @@ class StoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): View
     {
         $stories = Story::whereNot(function ($st) {
             $st->where('user_id', auth()->user()->id);
@@ -77,7 +79,7 @@ class StoryController extends Controller
      * @param  \App\Models\Story  $story
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Story $story)
+    public function update(Request $request, Story $story): JsonResponse
     {
         if ($story->active == 'true') {
             $story->active = 'false';

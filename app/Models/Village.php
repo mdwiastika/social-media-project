@@ -9,6 +9,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use AzisHapidin\IndoRegion\Traits\VillageTrait;
 use Illuminate\Database\Eloquent\Model;
 
@@ -40,7 +41,7 @@ class Village extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function district()
+    public function district(): BelongsTo
     {
         return $this->belongsTo(District::class);
     }
