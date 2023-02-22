@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\GetMidtrans;
 use App\Models\ChMessage;
 use App\Models\Follow;
 use App\Models\Like;
 use App\Models\Post;
 use App\Models\Story;
-use Illuminate\Http\Request;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\View\View;
 
 class PostController extends Controller
 {
@@ -24,10 +25,8 @@ class PostController extends Controller
      */
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function index(Post $post, Request $request)
+    public function index(Post $post, Request $request): View
     {
         $countMessage = ChMessage::where('to_id', Auth::id())->where('seen', 0)->count();
         $user = Auth::user()->follows->pluck('id');
@@ -54,6 +53,7 @@ class PostController extends Controller
                 'likePost' => Like::where('user_id', auth()->user()->id)->pluck('post_id'),
             ]);
         }
+
         return view('feed', [
             'title' => 'feed',
             'posts' => $postsaya,
@@ -71,13 +71,12 @@ class PostController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function create(Post $post)
+    public function create(Post $post): View
     {
         $countMessage = ChMessage::where('to_id', Auth::id())->where('seen', 0)->count();
         $data = Follow::where('following_user_id', auth()->User()->id)->count();
+
         return view('create', [
             'title' => 'create',
             'count' => $post->where('user_id', auth()->User()->id)->get(),
@@ -88,16 +87,13 @@ class PostController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $validatedData = $request->validate([
             'content' => 'required|max:1500',
             'image' => 'required',
-            'image.*' => 'file|max:6000'
+            'image.*' => 'file|max:6000',
         ]);
         if ($request->hasfile('image')) {
             foreach ($request->file('image') as $imageSolo) {
@@ -107,16 +103,16 @@ class PostController extends Controller
             Post::create([
                 'user_id' => auth()->user()->id,
                 'content' => $request->content,
-                'image' => base64_encode(serialize($data))
+                'image' => base64_encode(serialize($data)),
             ]);
         }
+
         return redirect('/')->with('success', 'Create post successfully!');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
     public function show(Post $post)
@@ -126,14 +122,12 @@ class PostController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
      */
-    public function edit(Post $post)
+    public function edit(Post $post): View
     {
         $data = Follow::where('following_user_id', auth()->User()->id)->count();
         $countMessage = ChMessage::where('to_id', Auth::id())->where('seen', 0)->count();
+
         return view('edit', [
             'title' => 'edit',
             'count' => $post->where('user_id', auth()->User()->id)->get(),
@@ -145,16 +139,12 @@ class PostController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, Post $post): RedirectResponse
     {
         $rules = [
             'content' => 'required|max:1500',
-            'image.*' => 'image|file|max:6000'
+            'image.*' => 'image|file|max:6000',
         ];
         $validatedData = $request->validate($rules);
         if ($request->file('image')) {
@@ -166,16 +156,14 @@ class PostController extends Controller
         $validatedData['user_id'] = auth()->user()->id;
         $validatedData['image'] = base64_encode(serialize($data));
         Post::where('id', $post->id)->update($validatedData);
+
         return redirect('/')->with('success', 'Update post successfully!');
     }
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function destroy(Post $post): RedirectResponse
     {
         if ($post->image) {
             foreach (unserialize(base64_decode($post->image)) as $imm) {
@@ -183,11 +171,14 @@ class PostController extends Controller
             }
         }
         $post->delete();
+
         return redirect('/feed')->with('warning', 'Delete post successfully!');
     }
-    public function trending()
+
+    public function trending(): View
     {
         $countMessage = ChMessage::where('to_id', Auth::id())->where('seen', 0)->count();
+
         return view('trending', [
             'title' => 'trending',
             'posts' => Post::where('user_id', auth()->User()->id)->latest()->get(),

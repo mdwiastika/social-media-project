@@ -403,10 +403,10 @@
         <div class="flex items-center space-x-3">
           <div class="dark:text-gray-100" id="Liked{{ $post->id }}">
             @php
-              $firstLike = optional($post->likes->last())->user;
+              $firstLike = $post->likes->last()?->user;
             @endphp
             @if ($post->likes->count('user_id' > 0))
-              Liked by <strong>{{ optional($firstLike)->username }} </strong>
+              Liked by <strong>{{ $firstLike?->username }} </strong>
             @endif
             @if ($post->likes->count('user_id') > 1)
               and <strong>{{ $post->likes->count('user_id') - 1 }} Others </strong>

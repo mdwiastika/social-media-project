@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Like;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class LikeController extends Controller
@@ -29,15 +30,13 @@ class LikeController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         $coba = Like::where('user_id', auth()->user()->id)->where('post_id', $request->post_id)->exists();
         if ($coba) {
             $hapuss = Like::where('user_id', auth()->user()->id)->where('post_id', $request->post_id)->delete();
+
             return response()->json($coba);
         } else {
             $like = new Like();
@@ -45,6 +44,7 @@ class LikeController extends Controller
             $like->post_id = $request->post_id;
             $like->user_name = $request->user_name;
             $like->save();
+
             return response()->json($like);
         }
     }
@@ -52,7 +52,6 @@ class LikeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Like  $like
      * @return \Illuminate\Http\Response
      */
     public function show(Like $like)
@@ -63,7 +62,6 @@ class LikeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Like  $like
      * @return \Illuminate\Http\Response
      */
     public function edit(Like $like)
@@ -74,8 +72,6 @@ class LikeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Like  $like
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Like $like)
@@ -86,7 +82,6 @@ class LikeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Like  $like
      * @return \Illuminate\Http\Response
      */
     public function destroy(Like $like)
