@@ -32,7 +32,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Guest User Access
-Route::group(['middleware' => 'guest'], function () {
+Route::middleware('guest')->group(function () {
     // login route
     Route::get('/form-login', [LoginController::class, 'index'])->name('login');
     Route::post('/form-login', [LoginController::class, 'store']);
@@ -44,9 +44,9 @@ Route::group(['middleware' => 'guest'], function () {
     Route::get('/auth/google/call-back', [GoogleAuthController::class, 'callbackGoogle']);
 });
 // Auth User Access
-Route::group(['middleware' => 'auth'], function () {
-    Route::group(['middleware' => 'is_user'], function () {
-        Route::group(['middleware' => 'active_user'], function () {
+Route::middleware('auth')->group(function () {
+    Route::middleware('is_user')->group(function () {
+        Route::middleware('active_user')->group(function () {
             Route::post('/payment', [UserController::class, 'payment']);
             Route::get('/payment', function () {
                 return redirect('/profile/'.auth()->user()->username);
@@ -84,7 +84,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
     // Admin Route
-    Route::group(['middleware' => 'is_admin'], function () {
+    Route::middleware('is_admin')->group(function () {
         Route::prefix('admin')->group(function () {
             Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
             Route::prefix('table')->group(function () {
