@@ -19,6 +19,7 @@ class isAdmin
         if (auth()->user()->role != 'admin') {
             return redirect('/feed');
         }
+
         return $next($request);
     }
 }

@@ -31,11 +31,13 @@ class PaymentController extends Controller
                 $user->coin = $user->coin + $request->coin;
                 $user->save();
             }
+
             return response()->json($request->all(), 202);
         } catch (\Throwable $th) {
             return response()->json($th->getMessage(), 503);
         }
     }
+
     public function shareCoin(Request $request)
     {
         $validatedData = $request->validate([
@@ -58,7 +60,7 @@ class PaymentController extends Controller
 
             // comment coin
             $comment = new Comment;
-            $comment->body = 'Send coin x' . $request->coin;
+            $comment->body = 'Send coin x'.$request->coin;
             $comment->user()->associate(Auth::user());
             $comment->coin = 'active';
             $post = Post::find($request->post_id);

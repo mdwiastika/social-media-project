@@ -38,6 +38,7 @@ class LikeController extends Controller
         $coba = Like::where('user_id', auth()->user()->id)->where('post_id', $request->post_id)->exists();
         if ($coba) {
             $hapuss = Like::where('user_id', auth()->user()->id)->where('post_id', $request->post_id)->delete();
+
             return response()->json($coba);
         } else {
             $like = new Like();
@@ -45,6 +46,7 @@ class LikeController extends Controller
             $like->post_id = $request->post_id;
             $like->user_name = $request->user_name;
             $like->save();
+
             return response()->json($like);
         }
     }

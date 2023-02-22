@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
 use iLLuminate\Support\Facades\Auth;
 
@@ -16,7 +15,7 @@ class LoginController extends Controller
     public function index()
     {
         return view('form-login', [
-            'title' => 'Form Login'
+            'title' => 'Form Login',
         ]);
     }
 
@@ -40,19 +39,23 @@ class LoginController extends Controller
     {
         $credentials = $request->validate([
             'email' => 'required|email:dns',
-            'password' => 'required'
+            'password' => 'required',
         ]);
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+
             return redirect()->intended('/feed')->with('success', 'Login succesfully!');
         }
+
         return back()->with('loginError', 'login failed')->with('error', 'Username or password doesn\'t match');
     }
+
     public function logout(Request $request)
     {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
         return redirect('/');
     }
 }

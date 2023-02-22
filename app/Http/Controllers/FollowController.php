@@ -37,14 +37,13 @@ class FollowController extends Controller
      */
     public function store(User $user)
     {
-
         if (Auth::user()->hasFollow($user)) {
             Auth::user()->unfollow($user);
         } else {
             Auth::user()->follow($user);
         }
 
-        return back()->with("success", "You are follow the user");
+        return back()->with('success', 'You are follow the user');
     }
 
     /**

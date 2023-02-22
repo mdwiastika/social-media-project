@@ -16,7 +16,7 @@ class GetMidtrans
         $params = [
             'transaction_details' => [
                 'order_id' => rand(),
-                'gross_amount' =>  $item_detail['price'],
+                'gross_amount' => $item_detail['price'],
             ],
             'item_details' => [
                 [
@@ -24,7 +24,7 @@ class GetMidtrans
                     'price' => $item_detail['price'],
                     'quantity' => $item_detail['quantity'],
                     'name' => $item_detail['name'],
-                ]
+                ],
             ],
             'customer_details' => [
                 'first_name' => auth()->user()->name,
@@ -35,6 +35,7 @@ class GetMidtrans
         ];
 
         $snapToken = \Midtrans\Snap::getSnapToken($params);
+
         return $snapToken;
     }
 }

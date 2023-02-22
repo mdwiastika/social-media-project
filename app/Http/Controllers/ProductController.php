@@ -20,6 +20,7 @@ class ProductController extends Controller
     {
         $data = Follow::where('following_user_id', auth()->User()->id)->count();
         $countMessage = ChMessage::where('to_id', Auth::id())->where('seen', 0)->count();
+
         return view('market', [
             'title' => 'Marketplace',
             'count' => Post::where('user_id', auth()->user()->id)->where('active', 'true')->get(),

@@ -81,9 +81,10 @@ class UserController extends Controller
             $user->active = 'true';
         }
         $user->save();
+
         return response()->json([
             'message' => 'berhasil',
-            'user' => $user
+            'user' => $user,
         ], 202);
     }
 

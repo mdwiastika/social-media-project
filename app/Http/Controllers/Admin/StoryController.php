@@ -18,6 +18,7 @@ class StoryController extends Controller
         $stories = Story::whereNot(function ($st) {
             $st->where('user_id', auth()->user()->id);
         })->latest()->get();
+
         return view('admin.table.stories.main', [
             'title' => 'Table Story',
             'stories' => $stories,
@@ -84,6 +85,7 @@ class StoryController extends Controller
             $story->active = 'true';
         }
         $story->save();
+
         return response()->json([
             'message' => 'Success change user status',
             'story' => $story,

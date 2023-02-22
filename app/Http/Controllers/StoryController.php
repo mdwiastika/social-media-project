@@ -16,6 +16,7 @@ class StoryController extends Controller
     {
         $data = Follow::where('following_user_id', auth()->User()->id)->count();
         $countMessage = ChMessage::where('to_id', Auth::id())->where('seen', 0)->count();
+
         return view('create-story', [
             'title' => 'Form Story',
             'user' => auth()->User()->id,
@@ -26,6 +27,7 @@ class StoryController extends Controller
             'unreadMessage' => $countMessage,
         ]);
     }
+
     public function store(Request $request)
     {
         $validatedData = $request->validate([
@@ -38,8 +40,10 @@ class StoryController extends Controller
         $validatedData['seen'] = 1;
         $validatedData['user_id'] = Auth::id();
         Story::create($validatedData);
+
         return redirect('/feed');
     }
+
     public function destroy($id)
     {
     }

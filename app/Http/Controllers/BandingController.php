@@ -48,6 +48,7 @@ class BandingController extends Controller
                 $validatedData['image'] = $request->file('image')->store('banding');
             }
             Banding::create($validatedData);
+
             return redirect('/uji-banding')->with('message', 'Sukses Ajukan banding, tunggu info selenjutnya');
         } catch (\Throwable $th) {
             return back()->with('message', 'Isi form dengan lengkap');

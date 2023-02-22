@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
@@ -19,6 +18,7 @@ class PostController extends Controller
         $posts = Post::whereNot(function ($po) {
             $po->where('user_id', auth()->user()->id);
         })->latest()->get();
+
         return view('admin.table.posts.main', [
             'title' => 'Table Post',
             'posts' => $posts,
@@ -85,6 +85,7 @@ class PostController extends Controller
             $post->active = 'true';
         }
         $post->save();
+
         return response()->json([
             'message' => 'success change status post',
             'post' => $post,

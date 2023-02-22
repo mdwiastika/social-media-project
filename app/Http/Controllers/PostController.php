@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\GetMidtrans;
 use App\Models\ChMessage;
 use App\Models\Follow;
 use App\Models\Like;
 use App\Models\Post;
 use App\Models\Story;
-use Illuminate\Http\Request;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -54,6 +53,7 @@ class PostController extends Controller
                 'likePost' => Like::where('user_id', auth()->user()->id)->pluck('post_id'),
             ]);
         }
+
         return view('feed', [
             'title' => 'feed',
             'posts' => $postsaya,
@@ -78,6 +78,7 @@ class PostController extends Controller
     {
         $countMessage = ChMessage::where('to_id', Auth::id())->where('seen', 0)->count();
         $data = Follow::where('following_user_id', auth()->User()->id)->count();
+
         return view('create', [
             'title' => 'create',
             'count' => $post->where('user_id', auth()->User()->id)->get(),
@@ -97,7 +98,7 @@ class PostController extends Controller
         $validatedData = $request->validate([
             'content' => 'required|max:1500',
             'image' => 'required',
-            'image.*' => 'file|max:6000'
+            'image.*' => 'file|max:6000',
         ]);
         if ($request->hasfile('image')) {
             foreach ($request->file('image') as $imageSolo) {
@@ -107,9 +108,10 @@ class PostController extends Controller
             Post::create([
                 'user_id' => auth()->user()->id,
                 'content' => $request->content,
-                'image' => base64_encode(serialize($data))
+                'image' => base64_encode(serialize($data)),
             ]);
         }
+
         return redirect('/')->with('success', 'Create post successfully!');
     }
 
@@ -134,6 +136,7 @@ class PostController extends Controller
     {
         $data = Follow::where('following_user_id', auth()->User()->id)->count();
         $countMessage = ChMessage::where('to_id', Auth::id())->where('seen', 0)->count();
+
         return view('edit', [
             'title' => 'edit',
             'count' => $post->where('user_id', auth()->User()->id)->get(),
@@ -154,7 +157,7 @@ class PostController extends Controller
     {
         $rules = [
             'content' => 'required|max:1500',
-            'image.*' => 'image|file|max:6000'
+            'image.*' => 'image|file|max:6000',
         ];
         $validatedData = $request->validate($rules);
         if ($request->file('image')) {
@@ -166,6 +169,7 @@ class PostController extends Controller
         $validatedData['user_id'] = auth()->user()->id;
         $validatedData['image'] = base64_encode(serialize($data));
         Post::where('id', $post->id)->update($validatedData);
+
         return redirect('/')->with('success', 'Update post successfully!');
     }
 
@@ -183,11 +187,14 @@ class PostController extends Controller
             }
         }
         $post->delete();
+
         return redirect('/feed')->with('warning', 'Delete post successfully!');
     }
+
     public function trending()
     {
         $countMessage = ChMessage::where('to_id', Auth::id())->where('seen', 0)->count();
+
         return view('trending', [
             'title' => 'trending',
             'posts' => Post::where('user_id', auth()->User()->id)->latest()->get(),

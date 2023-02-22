@@ -19,6 +19,7 @@ class isUser
         if (auth()->user()->role != 'user') {
             return redirect('/admin/dashboard');
         }
+
         return $next($request);
     }
 }

@@ -15,7 +15,7 @@ class RegisterController extends Controller
     public function index()
     {
         return view('form-register', [
-            'title' => 'Form Registrasi'
+            'title' => 'Form Registrasi',
         ]);
     }
 
@@ -42,7 +42,7 @@ class RegisterController extends Controller
             'name' => 'required|max:255|',
             'username' => 'required|min:4|max:255|unique:users',
             'email' => 'required|email:dns|unique:users',
-            'password' => 'required|min:5|max:255'
+            'password' => 'required|min:5|max:255',
         ]);
         $validatedData['password'] = bcrypt($validatedData['password']);
         if ($userLength) {
@@ -51,6 +51,7 @@ class RegisterController extends Controller
             $validatedData['role'] = 'admin';
         }
         User::create($validatedData);
+
         return redirect('/form-login')->with('success', 'Registration successfull! Please Login');
     }
 

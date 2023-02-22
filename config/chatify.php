@@ -68,7 +68,7 @@ return [
     'gravatar' => [
         'enabled' => false,
         'image_size' => 200,
-        'imageset' => 'identicon'
+        'imageset' => 'identicon',
     ],
 
     /*

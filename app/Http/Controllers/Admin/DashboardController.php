@@ -17,6 +17,7 @@ class DashboardController extends Controller
         $posts = Post::count();
         $stories = Story::count();
         $bandings = Banding::count();
+
         return view('admin.dashboard.main', [
             'title' => 'Dashboard',
             'user' => auth()->user(),

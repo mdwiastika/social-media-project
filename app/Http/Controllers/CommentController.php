@@ -43,6 +43,7 @@ class CommentController extends Controller
             $comment2->parent_id = $request->comment_parent;
             $post = Post::find($request->post_id);
             $post->comments()->save($comment2);
+
             return response()->json($post);
         } else {
             $comment = new Comment;
@@ -50,6 +51,7 @@ class CommentController extends Controller
             $comment->user()->associate($request->user());
             $post = Post::find($request->post_id);
             $post->comments()->save($comment);
+
             return response()->json($post);
         }
     }

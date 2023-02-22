@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Banding;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class BandingController extends Controller
@@ -12,6 +11,7 @@ class BandingController extends Controller
     public function index()
     {
         $bandings = Banding::all();
+
         return view('admin.table.bandings.main', [
             'title' => 'Table Bandings',
             'bandings' => $bandings,
@@ -19,14 +19,16 @@ class BandingController extends Controller
             'act' => 'tablebandings',
         ]);
     }
+
     public function destroy($id)
     {
         try {
             $banding = Banding::where('id', $id)->first();
             Storage::delete($banding->image);
             $banding->delete();
+
             return response()->json([
-                'message' => 'Sukses hapus banding'
+                'message' => 'Sukses hapus banding',
             ], 202);
         } catch (\Throwable $th) {
             return response()->json([

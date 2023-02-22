@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -13,6 +12,7 @@ class GoogleAuthController extends Controller
     {
         return Socialite::driver('google')->redirect();
     }
+
     public function callbackGoogle()
     {
         try {
@@ -21,9 +21,10 @@ class GoogleAuthController extends Controller
             $get_duplicate_email = User::where('email', $google_user->getEmail())->first();
             if ($get_user) {
                 Auth::login($get_user);
-				return redirect()->intended('/feed');
+
+                return redirect()->intended('/feed');
             } else {
-                if (!$get_duplicate_email) {
+                if (! $get_duplicate_email) {
                     $create_user = User::create([
                         'name' => $google_user->getName(),
                         'username' => $google_user->getName(),
@@ -38,6 +39,7 @@ class GoogleAuthController extends Controller
                     ]);
                     Auth::login($get_duplicate_email);
                 }
+
                 return redirect()->intended('/feed');
             }
         } catch (\Throwable $th) {

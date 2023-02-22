@@ -1,6 +1,5 @@
 <?php
 
-use App\Events\MessageCreated;
 use App\Http\Controllers\Admin\BandingController as AdminBandingController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
@@ -20,8 +19,6 @@ use App\Http\Controllers\StoryController;
 use App\Http\Controllers\UserController;
 use App\Models\Post;
 use Illuminate\Support\Facades\Route;
-
-use function Ramsey\Uuid\v1;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,7 +49,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::group(['middleware' => 'active_user'], function () {
             Route::post('/payment', [UserController::class, 'payment']);
             Route::get('/payment', function () {
-                return redirect('/profile/' . auth()->user()->username);
+                return redirect('/profile/'.auth()->user()->username);
             });
             Route::post('/coin/transaction', [PaymentController::class, 'store']);
             Route::post('/coin/send', [PaymentController::class, 'shareCoin']);

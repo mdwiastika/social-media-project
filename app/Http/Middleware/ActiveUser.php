@@ -20,6 +20,7 @@ class ActiveUser
         if (Auth::user()->active == 'true') {
             return $next($request);
         }
+
         return redirect('/uji-banding/create');
     }
 }
