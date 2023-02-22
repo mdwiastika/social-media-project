@@ -2,21 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use iLLuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class LoginController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): View
     {
         return view('form-login', [
-            'title' => 'Form Login'
+            'title' => 'Form Login',
         ]);
     }
 
@@ -33,26 +32,29 @@ class LoginController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $credentials = $request->validate([
             'email' => 'required|email:dns',
-            'password' => 'required'
+            'password' => 'required',
         ]);
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+
             return redirect()->intended('/feed')->with('success', 'Login succesfully!');
         }
+
         return back()->with('loginError', 'login failed')->with('error', 'Username or password doesn\'t match');
     }
-    public function logout(Request $request)
+
+    public function logout(Request $request): RedirectResponse
     {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
         return redirect('/');
     }
 }

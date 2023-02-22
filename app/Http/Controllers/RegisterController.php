@@ -3,19 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class RegisterController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): View
     {
         return view('form-register', [
-            'title' => 'Form Registrasi'
+            'title' => 'Form Registrasi',
         ]);
     }
 
@@ -31,18 +31,15 @@ class RegisterController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $userLength = User::count();
         $validatedData = $request->validate([
             'name' => 'required|max:255|',
             'username' => 'required|min:4|max:255|unique:users',
             'email' => 'required|email:dns|unique:users',
-            'password' => 'required|min:5|max:255'
+            'password' => 'required|min:5|max:255',
         ]);
         $validatedData['password'] = bcrypt($validatedData['password']);
         if ($userLength) {
@@ -51,6 +48,7 @@ class RegisterController extends Controller
             $validatedData['role'] = 'admin';
         }
         User::create($validatedData);
+
         return redirect('/form-login')->with('success', 'Registration successfull! Please Login');
     }
 

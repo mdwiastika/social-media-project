@@ -7,15 +7,18 @@ use App\Models\Follow;
 use App\Models\Like;
 use App\Models\Post;
 use App\Models\Story;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class StoryController extends Controller
 {
-    public function create()
+    public function create(): View
     {
         $data = Follow::where('following_user_id', auth()->User()->id)->count();
         $countMessage = ChMessage::where('to_id', Auth::id())->where('seen', 0)->count();
+
         return view('create-story', [
             'title' => 'Form Story',
             'user' => auth()->User()->id,
@@ -26,7 +29,8 @@ class StoryController extends Controller
             'unreadMessage' => $countMessage,
         ]);
     }
-    public function store(Request $request)
+
+    public function store(Request $request): RedirectResponse
     {
         $validatedData = $request->validate([
             'content' => 'required',
@@ -38,8 +42,10 @@ class StoryController extends Controller
         $validatedData['seen'] = 1;
         $validatedData['user_id'] = Auth::id();
         Story::create($validatedData);
+
         return redirect('/feed');
     }
+
     public function destroy($id)
     {
     }

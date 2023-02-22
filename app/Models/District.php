@@ -11,8 +11,8 @@ namespace App\Models;
 
 use AzisHapidin\IndoRegion\Traits\DistrictTrait;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Regency;
-use App\Models\Village;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * District Model.
@@ -34,25 +34,21 @@ class District extends Model
      * @var array
      */
     protected $hidden = [
-        'regency_id'
+        'regency_id',
     ];
 
     /**
      * District belongs to Regency.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function regency()
+    public function regency(): BelongsTo
     {
         return $this->belongsTo(Regency::class);
     }
 
     /**
      * District has many villages.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function villages()
+    public function villages(): HasMany
     {
         return $this->hasMany(Village::class);
     }

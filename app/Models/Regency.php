@@ -11,6 +11,8 @@ namespace App\Models;
 
 use AzisHapidin\IndoRegion\Traits\RegencyTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Regency Model.
@@ -32,25 +34,21 @@ class Regency extends Model
      * @var array
      */
     protected $hidden = [
-        'province_id'
+        'province_id',
     ];
 
     /**
      * Regency belongs to Province.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function province()
+    public function province(): BelongsTo
     {
         return $this->belongsTo(Province::class);
     }
 
     /**
      * Regency has many districts.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function districts()
+    public function districts(): HasMany
     {
         return $this->hasMany(District::class);
     }

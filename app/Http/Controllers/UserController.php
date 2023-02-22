@@ -4,27 +4,27 @@ namespace App\Http\Controllers;
 
 use App\Helpers\GetMidtrans;
 use App\Models\ChMessage;
-use App\Models\User;
-use App\Models\Post;
-use Illuminate\Http\Request;
 use App\Models\Follow;
+use App\Models\Post;
 use App\Models\Topup;
+use App\Models\User;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\View\View;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function index(User $user)
+    public function index(User $user): View
     {
         $countMessage = ChMessage::where('to_id', Auth::id())->where('seen', 0)->count();
         $data = Follow::where('following_user_id', auth()->User()->id)->count();
         $coins = Topup::all();
+
         return view('profile', [
             'title' => 'profile',
             'posts' => Post::where('user_id', $user->id)->where('active', 'true')->latest()->get(),
@@ -36,7 +36,8 @@ class UserController extends Controller
             'coins' => $coins,
         ]);
     }
-    public function payment(Request $request)
+
+    public function payment(Request $request): View
     {
         $detail_item = [
             'id' => $request->id_topup,
@@ -48,12 +49,14 @@ class UserController extends Controller
         $countMessage = ChMessage::where('to_id', Auth::id())->where('seen', 0)->count();
         $data = Follow::where('following_user_id', auth()->User()->id)->count();
         $coins = Topup::all();
+
         return view('payment', [
             'title' => 'Pay Now!',
             'snapToken' => $snapToken,
             'coin' => $request->coin,
         ]);
     }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -67,7 +70,6 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, User $user)
@@ -78,9 +80,8 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show(): View
     {
         // $data = Follow::where('following_user_id', auth()->User()->id)->count();
         // return view('profile', [
@@ -94,14 +95,12 @@ class UserController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, User $user)
+    public function edit(Request $request, User $user): View
     {
         $data = Follow::where('following_user_id', auth()->User()->id)->count();
         $countMessage = ChMessage::where('to_id', Auth::id())->where('seen', 0)->count();
+
         return view('editprofile', [
             'title' => 'Edit Profile',
             'posts' => Post::where('user_id', $user->id)->latest()->get(),
@@ -114,18 +113,14 @@ class UserController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $user): RedirectResponse
     {
         $rules = [
             'name' => 'required|max:500',
-            'username' => 'required|min:4|max:300|unique:users,username,' . auth()->id(),
+            'username' => 'required|min:4|max:300|unique:users,username,'.auth()->id(),
             'profile' => 'image|file|max:6000',
-            'bio' => 'max:500'
+            'bio' => 'max:500',
         ];
         $validatedData = $request->validate($rules);
         if ($request->file('profile')) {
@@ -135,36 +130,40 @@ class UserController extends Controller
             $validatedData['profile'] = $request->file('profile')->store('profile-images');
         }
         User::where('id', $user->id)->update($validatedData);
-        return redirect('/profile/' . $user->username);
+
+        return redirect('/profile/'.$user->username);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
     public function destroy(User $user)
     {
         //
     }
-    public function search(Request $request)
+
+    public function search(Request $request): View
     {
-        $user = "";
+        $user = '';
         if ($request->ajax()) {
-            $user_filter = User::where('username', 'LIKE', '%' . $request->user_search . '%')->whereNot(function ($query) {
+            $user_filter = User::where('username', 'LIKE', '%'.$request->user_search.'%')->whereNot(function ($query) {
                 $query->where('id', Auth::id());
             })->whereNot(function ($uf) {
                 $uf->where('role', 'admin');
             })->where('active', 'true')->get();
+
             return view('get-user-search', [
                 'users' => $user_filter,
             ]);
         }
     }
-    public function explore()
+
+    public function explore(): View
     {
         $countMessage = ChMessage::where('to_id', Auth::id())->where('seen', 0)->count();
+
         return view('explore', [
             'title' => 'explore',
             'posts' => Post::where('user_id', auth()->User()->id)->latest()->get(),

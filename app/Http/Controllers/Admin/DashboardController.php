@@ -8,15 +8,17 @@ use App\Models\Post;
 use App\Models\Story;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class DashboardController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $users = User::where('role', 'user')->count();
         $posts = Post::count();
         $stories = Story::count();
         $bandings = Banding::count();
+
         return view('admin.dashboard.main', [
             'title' => 'Dashboard',
             'user' => auth()->user(),
