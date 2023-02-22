@@ -38,8 +38,6 @@ class Village extends Model
 
     /**
      * Village belongs to District.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function district(): BelongsTo
     {

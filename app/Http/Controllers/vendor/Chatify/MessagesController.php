@@ -29,9 +29,6 @@ class MessagesController extends Controller
 
     /**
      * Authenticate the connection for pusher
-     *
-     * @param Request $request
-     * @return JsonResponse
      */
     public function pusherAuth(Request $request): JsonResponse
     {
@@ -57,7 +54,6 @@ class MessagesController extends Controller
     /**
      * Returning the view of the app with the required data.
      *
-     * @param int $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index(int $id = null): View
@@ -85,9 +81,6 @@ class MessagesController extends Controller
 
     /**
      * Fetch data by id for (user/group)
-     *
-     * @param Request $request
-     * @return JsonResponse
      */
     public function idFetchData(Request $request): JsonResponse
     {
@@ -114,7 +107,6 @@ class MessagesController extends Controller
      * This method to make a links for the attachments
      * to be downloadable.
      *
-     * @param string $fileName
      * @return \Symfony\Component\HttpFoundation\StreamedResponse|void
      */
     public function download(string $fileName)
@@ -128,9 +120,6 @@ class MessagesController extends Controller
 
     /**
      * Send a message to database
-     *
-     * @param Request $request
-     * @return JsonResponse
      */
     public function send(Request $request): JsonResponse
     {
@@ -205,9 +194,6 @@ class MessagesController extends Controller
 
     /**
      * fetch [user/group] messages from database
-     *
-     * @param Request $request
-     * @return JsonResponse
      */
     public function fetch(Request $request): JsonResponse
     {
@@ -244,7 +230,6 @@ class MessagesController extends Controller
     /**
      * Make messages as seen
      *
-     * @param Request $request
      * @return JsonResponse|void
      */
     public function seen(Request $request): JsonResponse
@@ -259,9 +244,6 @@ class MessagesController extends Controller
 
     /**
      * Get contacts list
-     *
-     * @param Request $request
-     * @return JsonResponse
      */
     public function getContacts(Request $request): JsonResponse
     {
@@ -300,9 +282,6 @@ class MessagesController extends Controller
 
     /**
      * Update user's list item data
-     *
-     * @param Request $request
-     * @return JsonResponse
      */
     public function updateContactItem(Request $request): JsonResponse
     {
@@ -324,7 +303,6 @@ class MessagesController extends Controller
     /**
      * Put a user in the favorites list
      *
-     * @param Request $request
      * @return JsonResponse|void
      */
     public function favorite(Request $request): JsonResponse
@@ -349,7 +327,6 @@ class MessagesController extends Controller
     /**
      * Get favorites list
      *
-     * @param Request $request
      * @return JsonResponse|void
      */
     public function getFavorites(Request $request): JsonResponse
@@ -375,7 +352,6 @@ class MessagesController extends Controller
     /**
      * Search in messenger
      *
-     * @param Request $request
      * @return JsonResponse|void
      */
     public function search(Request $request): JsonResponse
@@ -408,7 +384,6 @@ class MessagesController extends Controller
     /**
      * Get shared photos
      *
-     * @param Request $request
      * @return JsonResponse|void
      */
     public function sharedPhotos(Request $request): JsonResponse
@@ -431,9 +406,6 @@ class MessagesController extends Controller
 
     /**
      * Delete conversation
-     *
-     * @param Request $request
-     * @return JsonResponse
      */
     public function deleteConversation(Request $request): JsonResponse
     {
@@ -448,9 +420,6 @@ class MessagesController extends Controller
 
     /**
      * Delete message
-     *
-     * @param Request $request
-     * @return JsonResponse
      */
     public function deleteMessage(Request $request): JsonResponse
     {
@@ -524,9 +493,6 @@ class MessagesController extends Controller
 
     /**
      * Set user's active status
-     *
-     * @param Request $request
-     * @return JsonResponse
      */
     public function setActiveStatus(Request $request): JsonResponse
     {

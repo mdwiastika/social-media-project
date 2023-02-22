@@ -29,8 +29,6 @@ class Province extends Model
 
     /**
      * Province has many regencies.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function regencies(): HasMany
     {

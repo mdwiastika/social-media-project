@@ -49,7 +49,6 @@ class FollowController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Follow  $follow
      * @return \Illuminate\Http\Response
      */
     public function show(Follow $follow)
@@ -60,7 +59,6 @@ class FollowController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Follow  $follow
      * @return \Illuminate\Http\Response
      */
     public function edit(Follow $follow)
@@ -71,8 +69,6 @@ class FollowController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Follow  $follow
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Follow $follow)
@@ -83,7 +79,6 @@ class FollowController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Follow  $follow
      * @return \Illuminate\Http\Response
      */
     public function destroy(Follow $follow)

@@ -39,8 +39,6 @@ class Regency extends Model
 
     /**
      * Regency belongs to Province.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function province(): BelongsTo
     {
@@ -49,8 +47,6 @@ class Regency extends Model
 
     /**
      * Regency has many districts.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function districts(): HasMany
     {
