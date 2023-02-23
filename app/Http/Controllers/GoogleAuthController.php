@@ -8,12 +8,12 @@ use Laravel\Socialite\Facades\Socialite;
 
 class GoogleAuthController extends Controller
 {
-    public function redirect()
+    public function redirect($provider)
     {
         return Socialite::driver('google')->redirect();
     }
 
-    public function callbackGoogle()
+    public function callbackProvider($provider)
     {
         try {
             $google_user = Socialite::driver('google')->user();
@@ -24,7 +24,7 @@ class GoogleAuthController extends Controller
 
                 return redirect()->intended('/feed');
             } else {
-                if (! $get_duplicate_email) {
+                if (!$get_duplicate_email) {
                     $create_user = User::create([
                         'name' => $google_user->getName(),
                         'username' => $google_user->getName(),

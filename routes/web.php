@@ -14,6 +14,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\StoryController;
 use App\Http\Controllers\UserController;
@@ -40,8 +41,8 @@ Route::middleware('guest')->group(function () {
     //register route
     Route::get('/form-register', [RegisterController::class, 'index']);
     Route::post('/form-register', [RegisterController::class, 'store']);
-    Route::get('/auth/google', [GoogleAuthController::class, 'redirect'])->name('google-auth');
-    Route::get('/auth/google/call-back', [GoogleAuthController::class, 'callbackGoogle']);
+    Route::get('/auth/{provider}', [ProviderController::class, 'redirect'])->name('provider-auth');
+    Route::get('/auth/{provider}/call-back', [ProviderController::class, 'callbackProvider']);
 });
 // Auth User Access
 Route::middleware('auth')->group(function () {
@@ -49,7 +50,7 @@ Route::middleware('auth')->group(function () {
         Route::middleware('active_user')->group(function () {
             Route::post('/payment', [UserController::class, 'payment']);
             Route::get('/payment', function () {
-                return redirect('/profile/'.auth()->user()->username);
+                return redirect('/profile/' . auth()->user()->username);
             });
             Route::post('/coin/transaction', [PaymentController::class, 'store']);
             Route::post('/coin/send', [PaymentController::class, 'shareCoin']);

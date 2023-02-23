@@ -23,7 +23,8 @@ return new class extends Migration
             $table->integer('coin')->nullable()->default(0);
             $table->enum('role', ['user', 'admin'])->default('user');
             $table->enum('active', ['true', 'false'])->default('true');
-            $table->string('google_id')->nullable();
+            $table->string('provider_id')->nullable();
+            $table->string('provider')->nullable();
             // $table->string('provider')->nullable()->default(null);
             // $table->string('provider_id')->nullable()->default(null);
             $table->rememberToken();
