@@ -29,7 +29,7 @@ class ProviderController extends Controller
                 if (!$get_duplicate_email) {
                     $create_user = User::create([
                         'name' => $provider_user->getName(),
-                        'username' => $provider_user->getEmail(),
+                        'username' => $provider_user->getNickname() ? $provider_user->getNickname() : $provider_user->getEmail(),
                         'email' => $provider_user->getEmail(),
                         'provider_id' => $provider_user->getId(),
                         'role' => 'user',
